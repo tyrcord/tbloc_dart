@@ -1,6 +1,6 @@
 @Timeout(Duration(seconds: 5))
 
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../mocks/people_bloc_state.mock.dart';
 import '../mocks/unidirectional_people_bloc.mock.dart';

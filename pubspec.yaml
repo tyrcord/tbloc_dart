@@ -1,6 +1,8 @@
 name: tbloc_dart
 version: 0.1.0
 author: Tyrcord Inc. <dev@tyrcord.com>
+homepage: https://github.com/tyrcord/tbloc_dart
+issue_tracker: https://github.com/tyrcord/tbloc_dart/issues
 environment:
   sdk: ">=2.6.0 <3.0.0"
 
@@ -16,3 +18,4 @@ dev_dependencies:
     sdk: flutter
   pedantic: 1.8.0+1
   test: ^1.9.4
+flutter:
