@@ -1,1 +1,3 @@
-abstract class BlocState extends Object {}
+import 'package:equatable/equatable.dart';
+
+abstract class BlocState extends Equatable {}

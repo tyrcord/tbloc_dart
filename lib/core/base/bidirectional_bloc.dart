@@ -5,36 +5,45 @@ import 'package:tbloc_dart/core/base/base.dart';
 import 'package:tbloc_dart/core/events/events.dart';
 import 'package:tbloc_dart/core/states/states.dart';
 import 'package:tbloc_dart/core/types/types.dart';
-import 'bidirectional_bloc_delegate.dart';
 
-abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState,
-    D extends BidirectionalBlocDelegate> extends Bloc<S, D> {
+abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
+    extends Bloc<S> {
   @protected
   final PublishSubject<E> eventController = PublishSubject<E>();
+  @protected
+  final PublishSubject<S> resetController = PublishSubject<S>();
 
-  Function(E) get dispatchEvent => eventController.sink.add;
-
-  Future<S> mapEventToState(E event, S currentState);
+  @protected
+  Stream<S> mapEventToState(E event, S currentState);
 
   BidirectionalBloc({
     S initialState,
     BlocStateBuilder<S> stateBuilder,
-    D delegate,
   }) : super(
           initialState: initialState,
           stateBuilder: stateBuilder,
-          delegate: delegate,
         ) {
-    eventController.listen((E event) {
-      final currentState = stateController.value ?? initialState;
-      notifyDelegateBlocWillProcessEvent(event, currentState);
+    eventController.asyncExpand((E event) {
+      if (event.shouldResetState) {
+        return Stream.value(initialState);
+      }
 
-      mapEventToState(event, currentState).then((S nextState) {
-        setState(nextState);
-        notifyDelegateBlocDidProcessEvent(event, nextState);
-      }).catchError(handleError);
+      final currentState = stateController.value ?? initialState;
+      return mapEventToState(event, currentState);
+    }).listen((S nextState) {
+      setState(nextState);
     });
   }
+
+  Function(E) get dispatchEvent {
+    if (!eventController.isClosed) {
+      return eventController.sink.add;
+    }
+
+    return _dispatchEvent;
+  }
+
+  void reset();
 
   @override
   void dispose() {
@@ -42,25 +51,5 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState,
     super.dispose();
   }
 
-  @protected
-  void notifyDelegateBlocWillProcessEvent(E event, S state) {
-    if (delegate != null && delegate.blocWillProcessEvent is Function) {
-      delegate.blocWillProcessEvent<BidirectionalBloc, E, S>(
-        this,
-        event,
-        state,
-      );
-    }
-  }
-
-  @protected
-  void notifyDelegateBlocDidProcessEvent(E event, S state) {
-    if (delegate != null && delegate.blocDidProcessEvent is Function) {
-      delegate.blocDidProcessEvent<BidirectionalBloc, E, S>(
-        this,
-        event,
-        state,
-      );
-    }
-  }
+  void _dispatchEvent(E event) {}
 }

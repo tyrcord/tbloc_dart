@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:tbloc_dart/core/models/models.dart';
 import 'package:tbloc_dart/core/states/states.dart';
 import 'package:tbloc_dart/core/types/types.dart';
-import 'bloc_delegate.dart';
 
-abstract class Bloc<S extends BlocState, D extends BlocDelegate> {
+abstract class Bloc<S extends BlocState> {
   @protected
   final BehaviorSubject<S> stateController = BehaviorSubject<S>();
   @protected
   BlocStateBuilder<S> stateBuilder;
   @protected
   final S initialState;
-  @protected
-  final D delegate;
 
   S get currentState => stateController.value;
 
@@ -23,12 +19,9 @@ abstract class Bloc<S extends BlocState, D extends BlocDelegate> {
   Bloc({
     this.initialState,
     this.stateBuilder,
-    this.delegate,
   }) : assert(stateBuilder != null || initialState != null) {
-    reset();
+    setState(getInitialState());
   }
-
-  void reset() => setState(getInitialState());
 
   void dispose() => stateController.close();
 
@@ -43,49 +36,22 @@ abstract class Bloc<S extends BlocState, D extends BlocDelegate> {
 
   @protected
   void setState(S candidateState) {
-    var nextState =
-        notifyDelegateBlocStateWillChange(currentState, candidateState);
-
-    nextState ??= candidateState;
-    dispatchState(nextState);
-    notifyDelegateBlocStateDidChange(nextState, currentState);
+    dispatchState(candidateState);
   }
 
   @protected
-  void dispatchState(S state) => stateController.sink.add(state);
-
-  @protected
-  S notifyDelegateBlocStateWillChange(S currentState, S nextState) {
-    if (delegate != null && delegate.blocStateWillChange is Function) {
-      return delegate.blocStateWillChange<Bloc, S>(
-        this,
-        BlocStateTransitionStart(
-          currentState: currentState,
-          nextState: nextState,
-        ),
-      );
+  Function(S) get dispatchState {
+    if (!stateController.isClosed) {
+      return stateController.sink.add;
     }
 
-    return null;
+    return _dispatchState;
   }
 
   @protected
-  void notifyDelegateBlocStateDidChange(S currentState, S previousState) {
-    if (delegate != null && delegate.blocStateDidChange is Function) {
-      delegate.blocStateDidChange<Bloc, S>(
-        this,
-        BlocStateTransitionEnd(
-          currentState: currentState,
-          previousState: previousState,
-        ),
-      );
-    }
+  Future<S> handleError(Object error) async {
+    return currentState;
   }
 
-  @protected
-  void handleError(Exception error) {
-    if (delegate != null && delegate.blocDidCatchError is Function) {
-      delegate.blocDidCatchError<Bloc, S>(this, error, currentState);
-    }
-  }
+  void _dispatchState(S state) {}
 }

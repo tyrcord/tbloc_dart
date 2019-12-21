@@ -1,13 +1,14 @@
 import 'package:meta/meta.dart';
 
+@immutable
 class BlocEvent<P> extends Object {
-  final String type;
   final Error error;
   final P payload;
+  final bool shouldResetState;
 
   BlocEvent({
-    @required this.type,
     this.error,
     this.payload,
-  }) : assert(type != null);
+    bool shouldResetState,
+  }) : this.shouldResetState = shouldResetState ?? false;
 }
