@@ -13,18 +13,14 @@ class CounterBloc
   Stream<CounterBlocState> mapEventToState(
     CounterBlocEvent event,
     CounterBlocState currentState,
-  ) {
+  ) async* {
     var counter = currentState.counter;
 
-    if (event.payload == CounterAction.increment) {
-      return Stream<CounterBlocState>.value(
-        CounterBlocState(counter: counter + 1),
-      );
+    if (event.payload == CounterBlocEventAction.increment) {
+      yield CounterBlocState(counter: counter + 1);
+    } else {
+      yield CounterBlocState(counter: counter > 0 ? counter - 1 : 0);
     }
-
-    return Stream<CounterBlocState>.value(
-      CounterBlocState(counter: counter > 0 ? counter - 1 : 0),
-    );
   }
 }
 
@@ -41,14 +37,14 @@ class CounterBlocState extends BlocState {
       ];
 }
 
-enum CounterAction {
+enum CounterBlocEventAction {
   increment,
   decrement,
 }
 
-class CounterBlocEvent extends BlocEvent<CounterAction> {
+class CounterBlocEvent extends BlocEvent<CounterBlocEventAction> {
   const CounterBlocEvent({
-    CounterAction action,
+    CounterBlocEventAction action,
     bool shouldResetState,
   }) : super(
           payload: action,
@@ -56,6 +52,14 @@ class CounterBlocEvent extends BlocEvent<CounterAction> {
         );
 
   CounterBlocEvent.reset() : this(shouldResetState: true);
-  CounterBlocEvent.increment() : this(action: CounterAction.increment);
-  CounterBlocEvent.decrement() : this(action: CounterAction.decrement);
+
+  CounterBlocEvent.increment()
+      : this(
+          action: CounterBlocEventAction.increment,
+        );
+
+  CounterBlocEvent.decrement()
+      : this(
+          action: CounterBlocEventAction.decrement,
+        );
 }
