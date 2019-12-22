@@ -1,3 +1,5 @@
-## [0.0.1] - TODO: Add release date.
+## [0.2.0](https://github.com/tyrcord/subx/releases/tag/v0.3.0) (2019-12-22)
 
-* TODO: Describe initial release.
+### Features
+
+- First release
