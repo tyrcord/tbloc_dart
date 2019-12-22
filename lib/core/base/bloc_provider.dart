@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
+import 'package:tbloc_dart/core/states/bloc_state.dart';
 import 'bloc.dart';
 
-class BlocProvider<T extends Bloc> extends StatefulWidget {
+class BlocProvider<T extends Bloc<S>, S extends BlocState>
+    extends StatefulWidget {
   final Widget child;
   final T bloc;
 
@@ -14,7 +16,7 @@ class BlocProvider<T extends Bloc> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BlocProviderState<T> createState() => _BlocProviderState<T>();
+  _BlocProviderState<T, S> createState() => _BlocProviderState<T, S>();
 
   static T of<T extends Bloc>(BuildContext context) {
     final provider = context
@@ -24,7 +26,8 @@ class BlocProvider<T extends Bloc> extends StatefulWidget {
   }
 }
 
-class _BlocProviderState<T extends Bloc> extends State<BlocProvider<T>> {
+class _BlocProviderState<T extends Bloc<S>, S extends BlocState>
+    extends State<BlocProvider<T, S>> {
   @override
   void dispose() {
     widget.bloc?.dispose();

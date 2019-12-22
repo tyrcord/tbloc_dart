@@ -1,18 +1,14 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:tbloc_dart/core/states/states.dart';
-import 'unidirectional_bloc.dart';
+import 'package:tbloc_dart/core/types/types.dart';
+import 'bloc.dart';
 
-typedef UnidirectionalBlocBuilder<S extends BlocState> = Widget Function(
-  BuildContext context,
-  S state,
-);
+class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
+  final BlocBuilder<S> builder;
+  final Bloc<S> bloc;
 
-class UnidirectionalBlocWidget<S extends BlocState> extends StatelessWidget {
-  final UnidirectionalBlocBuilder<S> builder;
-  final UnidirectionalBloc<S> bloc;
-
-  const UnidirectionalBlocWidget({
+  const BlocBuilderWidget({
     Key key,
     @required this.builder,
     @required this.bloc,
