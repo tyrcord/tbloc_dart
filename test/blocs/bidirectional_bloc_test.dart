@@ -54,29 +54,32 @@ void main() {
         expect(bloc.stream is Stream, equals(true));
       });
 
-      test('should dispatch states when BLoC\'s states change', () async {
-        expect(
-          bloc.stream.take(3).map((state) => state.firstname),
-          emitsInOrder([
-            'foo',
-            'baz',
-            'qux',
-            emitsDone,
-          ]),
-        );
+      test(
+        'should dispatch updated states when BLoC\'s states change',
+        () async {
+          expect(
+            bloc.stream.take(3).map((state) => state.firstname),
+            emitsInOrder([
+              'foo',
+              'baz',
+              'qux',
+              emitsDone,
+            ]),
+          );
 
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(firstname: 'baz'),
-          ),
-        );
+          bloc.dispatchEvent(
+            PeopleBlocEvent(
+              payload: PeopleBlocEventPayload(firstname: 'baz'),
+            ),
+          );
 
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(firstname: 'qux'),
-          ),
-        );
-      });
+          bloc.dispatchEvent(
+            PeopleBlocEvent(
+              payload: PeopleBlocEventPayload(firstname: 'qux'),
+            ),
+          );
+        },
+      );
     });
 
     group('#currentState', () {
