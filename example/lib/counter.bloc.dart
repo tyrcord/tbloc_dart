@@ -5,11 +5,6 @@ class CounterBloc
   CounterBloc() : super(initialState: CounterBlocState());
 
   @override
-  void reset() {
-    dispatchEvent(CounterBlocEvent.reset());
-  }
-
-  @override
   Stream<CounterBlocState> mapEventToState(
     CounterBlocEvent event,
     CounterBlocState currentState,
@@ -45,13 +40,9 @@ enum CounterBlocEventAction {
 class CounterBlocEvent extends BlocEvent<CounterBlocEventAction> {
   const CounterBlocEvent({
     CounterBlocEventAction action,
-    bool shouldResetState,
   }) : super(
           payload: action,
-          shouldResetState: shouldResetState,
         );
-
-  CounterBlocEvent.reset() : this(shouldResetState: true);
 
   CounterBlocEvent.increment()
       : this(

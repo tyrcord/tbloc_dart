@@ -5,8 +5,13 @@ import 'people_bloc_state.mock.dart';
 
 class BidirectionalPeopleBloc
     extends BidirectionalBloc<PeopleBlocEvent, PeopleBlocState> {
-  BidirectionalPeopleBloc(PeopleBlocState initialState)
-      : super(initialState: initialState);
+  BidirectionalPeopleBloc({
+    PeopleBlocState initialState,
+    BlocStateBuilder<PeopleBlocState> builder,
+  }) : super(
+          initialState: initialState,
+          stateBuilder: builder,
+        );
 
   @override
   Stream<PeopleBlocState> mapEventToState(
@@ -14,10 +19,5 @@ class BidirectionalPeopleBloc
     PeopleBlocState currentState,
   ) async* {
     yield currentState.copyWithPayload(event.payload);
-  }
-
-  @override
-  void reset() {
-    dispatchEvent(PeopleBlocEvent(shouldResetState: true));
   }
 }

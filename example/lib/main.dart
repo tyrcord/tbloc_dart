@@ -54,7 +54,7 @@ class MyHomePage extends StatelessWidget {
                   MaterialButton(
                     child: Text('RESET'),
                     onPressed: () {
-                      bloc.dispatchEvent(CounterBlocEvent.reset());
+                      bloc.reset();
                     },
                   ),
                 ],

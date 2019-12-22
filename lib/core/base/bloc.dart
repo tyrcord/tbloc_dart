@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:subx/subx.dart';
 
 import 'package:tbloc_dart/core/states/states.dart';
 import 'package:tbloc_dart/core/types/types.dart';
@@ -11,10 +12,12 @@ abstract class Bloc<S extends BlocState> {
   BlocStateBuilder<S> stateBuilder;
   @protected
   final S initialState;
+  @protected
+  final SubxList subxList = SubxList();
 
   S get currentState => stateController.value;
 
-  Stream<S> get stream => stateController.stream;
+  Stream<S> get onData => stateController.stream;
 
   Bloc({
     this.initialState,
@@ -23,7 +26,10 @@ abstract class Bloc<S extends BlocState> {
     setState(getInitialState());
   }
 
-  void dispose() => stateController.close();
+  void dispose() {
+    subxList.cancelAll();
+    stateController.close();
+  }
 
   @protected
   S getInitialState() {
@@ -46,11 +52,6 @@ abstract class Bloc<S extends BlocState> {
     }
 
     return _dispatchState;
-  }
-
-  @protected
-  Future<S> handleError(Object error) async {
-    return currentState;
   }
 
   void _dispatchState(S state) {}

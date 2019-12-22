@@ -9,12 +9,26 @@ import 'package:tbloc_dart/core/types/types.dart';
 abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
     extends Bloc<S> {
   @protected
-  final PublishSubject<E> eventController = PublishSubject<E>();
+  final PublishSubject<BlocEvent> internalEventController =
+      PublishSubject<BlocEvent>();
   @protected
-  final PublishSubject<S> resetController = PublishSubject<S>();
-
+  final PublishSubject<Object> errorController = PublishSubject<Object>();
+  @protected
+  final PublishSubject<E> externalEventController = PublishSubject<E>();
   @protected
   Stream<S> mapEventToState(E event, S currentState);
+
+  Stream<E> get onEvent => externalEventController.stream;
+
+  Stream<Object> get onError => errorController.stream;
+
+  Function(BlocEvent) get dispatchEvent {
+    if (!internalEventController.isClosed) {
+      return internalEventController.sink.add;
+    }
+
+    return _dispatchEvent;
+  }
 
   BidirectionalBloc({
     S initialState,
@@ -23,33 +37,41 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
           initialState: initialState,
           stateBuilder: stateBuilder,
         ) {
-    eventController.asyncExpand((E event) {
-      if (event.shouldResetState) {
-        return Stream.value(initialState);
-      }
+    internalEventController
+        .asyncExpand((BlocEvent event) {
+          if (event.error != null) {
+            throw (event.error);
+          } else if (event.resetState) {
+            return Stream.value(getInitialState());
+          }
 
-      final currentState = stateController.value ?? initialState;
-      return mapEventToState(event, currentState);
-    }).listen((S nextState) {
-      setState(nextState);
-    });
+          if (event is E) {
+            externalEventController.sink.add(event);
+
+            final currentState = stateController.value ?? initialState;
+            return mapEventToState(event, currentState);
+          }
+
+          return Stream.value(currentState);
+        })
+        .handleError(handleError)
+        .listen((S nextState) {
+          setState(nextState);
+        });
   }
 
-  Function(E) get dispatchEvent {
-    if (!eventController.isClosed) {
-      return eventController.sink.add;
-    }
-
-    return _dispatchEvent;
-  }
-
-  void reset();
+  void reset() => dispatchEvent(BlocEvent(resetState: true));
 
   @override
   void dispose() {
-    eventController.close();
+    internalEventController.close();
+    externalEventController.close();
+    errorController.close();
     super.dispose();
   }
 
-  void _dispatchEvent(E event) {}
+  @protected
+  void handleError(Object error) => errorController.sink.add(error);
+
+  void _dispatchEvent(BlocEvent event) {}
 }

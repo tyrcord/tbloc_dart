@@ -10,16 +10,45 @@ void main() {
   group('BidirectionalBloc', () {
     BidirectionalPeopleBloc bloc;
 
+    final defaultState = PeopleBlocState(
+      age: 42,
+      firstname: 'foo',
+      lastname: 'bar',
+    );
+
     setUp(() {
-      bloc = BidirectionalPeopleBloc(PeopleBlocState(
-        age: 42,
-        firstname: 'foo',
-        lastname: 'bar',
-      ));
+      bloc = BidirectionalPeopleBloc(initialState: defaultState);
     });
 
     tearDown(() {
       bloc.dispose();
+    });
+
+    group('#BidirectionalPeopleBloc()', () {
+      test('should return a BidirectionalPeopleBloc object', () {
+        expect(
+            BidirectionalPeopleBloc(initialState: defaultState)
+                is BidirectionalPeopleBloc,
+            equals(true));
+      });
+
+      test('should initialize its state', () async {
+        bloc = BidirectionalPeopleBloc(
+          initialState: defaultState,
+        );
+
+        expect(bloc.currentState.firstname, equals('foo'));
+        expect(bloc.currentState.lastname, equals('bar'));
+        expect(bloc.currentState.age, equals(42));
+
+        bloc = BidirectionalPeopleBloc(
+          builder: () => defaultState,
+        );
+
+        expect(bloc.currentState.firstname, equals('foo'));
+        expect(bloc.currentState.lastname, equals('bar'));
+        expect(bloc.currentState.age, equals(42));
+      });
     });
 
     group('#dispatchEvent()', () {
@@ -35,7 +64,7 @@ void main() {
           ),
         );
 
-        final lastState = await bloc.stream.skip(1).first;
+        final lastState = await bloc.onData.skip(1).first;
 
         expect(
           lastState ==
@@ -49,16 +78,16 @@ void main() {
       });
     });
 
-    group('#stream', () {
+    group('#onData', () {
       test('should be an Stream', () {
-        expect(bloc.stream is Stream, equals(true));
+        expect(bloc.onData is Stream, equals(true));
       });
 
       test(
-        'should dispatch updated states when BLoC\'s states change',
+        'should dispatch states when a BLoC\'s states change',
         () async {
           expect(
-            bloc.stream.take(3).map((state) => state.firstname),
+            bloc.onData.take(3).map((state) => state.firstname),
             emitsInOrder([
               'foo',
               'baz',
@@ -82,6 +111,46 @@ void main() {
       );
     });
 
+    group('#onError', () {
+      test('should be an Stream', () {
+        expect(bloc.onError is Stream, equals(true));
+      });
+
+      test('should dispatch states when a BLoC\'s states change', () async {
+        expect(
+          bloc.onError.take(1).map((Object error) => error.toString()),
+          emitsInOrder([
+            'error',
+            emitsDone,
+          ]),
+        );
+
+        bloc.dispatchEvent(PeopleBlocEvent.error());
+      });
+    });
+
+    group('#onEvent', () {
+      test('should be an Stream', () {
+        expect(bloc.onEvent is Stream, equals(true));
+      });
+
+      test('should dispatch states when a BLoC\'s states change', () async {
+        final event = PeopleBlocEvent(
+          payload: PeopleBlocEventPayload(firstname: 'baz'),
+        );
+
+        expect(
+          bloc.onEvent.take(1),
+          emitsInOrder([
+            event,
+            emitsDone,
+          ]),
+        );
+
+        bloc.dispatchEvent(event);
+      });
+    });
+
     group('#currentState', () {
       test(
         'should return the inital state when a BLoC has been instantiated',
@@ -103,7 +172,7 @@ void main() {
             ),
           );
 
-          final lastState = await bloc.stream
+          final lastState = await bloc.onData
               .skipWhile((state) => state.firstname != 'baz')
               .first;
 
@@ -123,7 +192,7 @@ void main() {
     group('#reset()', () {
       test('should reset a BLoC\'s state', () {
         expect(
-          bloc.stream.take(4).map((state) => state.age),
+          bloc.onData.take(4).map((state) => state.age),
           emitsInOrder([
             42,
             24,
@@ -156,7 +225,7 @@ void main() {
     group('#dispose()', () {
       test('should close the bloc stream', () {
         expect(
-          bloc.stream.map((state) => state.age),
+          bloc.onData.map((state) => state.age),
           neverEmits(12),
         );
 

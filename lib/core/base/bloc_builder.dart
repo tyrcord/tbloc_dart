@@ -19,7 +19,7 @@ class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<S>(
-      stream: bloc.stream,
+      stream: bloc.onData,
       initialData: bloc.currentState,
       builder: (
         BuildContext context,

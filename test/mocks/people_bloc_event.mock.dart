@@ -15,11 +15,11 @@ class PeopleBlocEventPayload {
 class PeopleBlocEvent extends BlocEvent<PeopleBlocEventPayload> {
   PeopleBlocEvent({
     PeopleBlocEventPayload payload,
-    Error error,
-    bool shouldResetState,
+    Object error,
   }) : super(
           payload: payload,
           error: error,
-          shouldResetState: shouldResetState,
         );
+
+  PeopleBlocEvent.error() : this(error: 'error');
 }

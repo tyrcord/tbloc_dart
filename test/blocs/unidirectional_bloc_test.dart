@@ -6,29 +6,60 @@ import '../mocks/people_bloc_state.mock.dart';
 import '../mocks/unidirectional_people_bloc.mock.dart';
 
 void main() {
-  group('BidirectionalBloc', () {
+  group('UnidirectionalBloc', () {
     UnidirectionalPeopleBloc bloc;
 
+    final defaultState = PeopleBlocState(
+      age: 42,
+      firstname: 'foo',
+      lastname: 'bar',
+    );
+
     setUp(() {
-      bloc = UnidirectionalPeopleBloc(PeopleBlocState(
-        age: 42,
-        firstname: 'foo',
-        lastname: 'bar',
-      ));
+      bloc = UnidirectionalPeopleBloc(
+        initialState: defaultState,
+      );
     });
 
     tearDown(() {
       bloc.dispose();
     });
 
-    group('#stream', () {
+    group('#UnidirectionalPeopleBloc()', () {
+      test('should return a UnidirectionalPeopleBloc object', () {
+        expect(
+            UnidirectionalPeopleBloc(initialState: defaultState)
+                is UnidirectionalPeopleBloc,
+            equals(true));
+      });
+
+      test('should initialize its state', () async {
+        bloc = UnidirectionalPeopleBloc(
+          initialState: defaultState,
+        );
+
+        expect(bloc.currentState.firstname, equals('foo'));
+        expect(bloc.currentState.lastname, equals('bar'));
+        expect(bloc.currentState.age, equals(42));
+
+        bloc = UnidirectionalPeopleBloc(
+          builder: () => defaultState,
+        );
+
+        expect(bloc.currentState.firstname, equals('foo'));
+        expect(bloc.currentState.lastname, equals('bar'));
+        expect(bloc.currentState.age, equals(42));
+      });
+    });
+
+    group('#onData', () {
       test('should be an Stream', () {
-        expect(bloc.stream is Stream, equals(true));
+        expect(bloc.onData is Stream, equals(true));
       });
 
       test('should dispatch states when BLoC\'s states change', () async {
         expect(
-          bloc.stream.take(3).map((state) => state.firstname),
+          bloc.onData.take(3).map((state) => state.firstname),
           emitsInOrder([
             'foo',
             'baz',
@@ -59,7 +90,7 @@ void main() {
         () async {
           bloc.put(PeopleBlocState(firstname: 'baz'));
 
-          final lastState = await bloc.stream
+          final lastState = await bloc.onData
               .skipWhile((state) => state.firstname != 'baz')
               .first;
 
@@ -79,7 +110,7 @@ void main() {
     group('#reset()', () {
       test('should reset a BLoC\'s state', () {
         expect(
-          bloc.stream.take(4).map((state) => state.age),
+          bloc.onData.take(4).map((state) => state.age),
           emitsInOrder([
             42,
             24,
@@ -98,7 +129,7 @@ void main() {
     group('#dispose()', () {
       test('should close the bloc stream', () {
         expect(
-          bloc.stream.map((state) => state.age),
+          bloc.onData.map((state) => state.age),
           neverEmits(12),
         );
 

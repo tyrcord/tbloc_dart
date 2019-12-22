@@ -4,11 +4,11 @@ import 'package:meta/meta.dart';
 class BlocEvent<P> extends Object {
   final Object error;
   final P payload;
-  final bool shouldResetState;
+  final bool resetState;
 
   const BlocEvent({
     this.error,
     this.payload,
-    bool shouldResetState,
-  }) : this.shouldResetState = shouldResetState ?? false;
+    bool resetState,
+  }) : this.resetState = resetState ?? false;
 }
