@@ -30,48 +30,60 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                MaterialButton(
-                  child: Text('INCREMENT'),
-                  onPressed: () {
-                    bloc.dispatchEvent(CounterBlocEvent.increment());
-                  },
-                ),
-                MaterialButton(
-                  child: Text('DECREMENT'),
-                  onPressed: () {
-                    bloc.dispatchEvent(CounterBlocEvent.decrement());
-                  },
-                ),
-                MaterialButton(
-                  child: Text('RESET'),
-                  onPressed: () {
-                    bloc.dispatchEvent(CounterBlocEvent.reset());
-                  },
-                ),
-              ],
-            ),
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            BlocBuilderWidget(
-              bloc: bloc,
-              builder: (context, CounterBlocState state) {
-                return Text(
-                  '${state.counter}',
-                  style: Theme.of(context).textTheme.display1,
-                );
-              },
-            ),
-          ],
+      body: BlocProvider(
+        bloc: bloc,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  MaterialButton(
+                    child: Text('INCREMENT'),
+                    onPressed: () {
+                      bloc.dispatchEvent(CounterBlocEvent.increment());
+                    },
+                  ),
+                  MaterialButton(
+                    child: Text('DECREMENT'),
+                    onPressed: () {
+                      bloc.dispatchEvent(CounterBlocEvent.decrement());
+                    },
+                  ),
+                  MaterialButton(
+                    child: Text('RESET'),
+                    onPressed: () {
+                      bloc.dispatchEvent(CounterBlocEvent.reset());
+                    },
+                  ),
+                ],
+              ),
+              Text(
+                'You have pushed the button this many times:',
+              ),
+              CounterWidget(),
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class CounterWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<CounterBloc>(context);
+
+    return BlocBuilderWidget(
+      bloc: bloc,
+      builder: (context, CounterBlocState state) {
+        return Text(
+          '${state.counter}',
+          style: Theme.of(context).textTheme.display1,
+        );
+      },
     );
   }
 }
