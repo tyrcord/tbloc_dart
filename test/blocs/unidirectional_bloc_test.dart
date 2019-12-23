@@ -95,12 +95,7 @@ void main() {
               .first;
 
           expect(
-            lastState.firstname,
-            equals('baz'),
-          );
-
-          expect(
-            lastState.firstname == bloc.currentState.firstname,
+            lastState == bloc.currentState,
             equals(true),
           );
         },

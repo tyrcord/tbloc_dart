@@ -52,9 +52,8 @@ void main() {
     });
 
     group('#dispatchEvent()', () {
-      test(
-          'should dispatch an event that will be handled by the BloC'
-          ' in order to update it\'s state ', () async {
+      test('should update a BLoC\'s state when an Event is dispatched',
+          () async {
         bloc.dispatchEvent(
           PeopleBlocEvent(
             payload: PeopleBlocEventPayload(
@@ -116,17 +115,21 @@ void main() {
         expect(bloc.onError is Stream, equals(true));
       });
 
-      test('should dispatch states when a BLoC\'s states change', () async {
-        expect(
-          bloc.onError.take(1).map((Object error) => error.toString()),
-          emitsInOrder([
-            'error',
-            emitsDone,
-          ]),
-        );
+      test(
+        'should dispatch an error when an error occurs '
+        'when mapping an event to state',
+        () async {
+          expect(
+            bloc.onError.take(1).map((Object error) => error.toString()),
+            emitsInOrder([
+              'error',
+              emitsDone,
+            ]),
+          );
 
-        bloc.dispatchEvent(PeopleBlocEvent.error());
-      });
+          bloc.dispatchEvent(PeopleBlocEvent.error());
+        },
+      );
     });
 
     group('#onEvent', () {
@@ -134,7 +137,7 @@ void main() {
         expect(bloc.onEvent is Stream, equals(true));
       });
 
-      test('should dispatch states when a BLoC\'s states change', () async {
+      test('should dispatch an event when a BloC receives an event', () async {
         final event = PeopleBlocEvent(
           payload: PeopleBlocEventPayload(firstname: 'baz'),
         );
@@ -177,12 +180,7 @@ void main() {
               .first;
 
           expect(
-            lastState.firstname,
-            equals('baz'),
-          );
-
-          expect(
-            lastState.firstname == bloc.currentState.firstname,
+            lastState == bloc.currentState,
             equals(true),
           );
         },
