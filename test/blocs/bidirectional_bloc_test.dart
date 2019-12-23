@@ -221,9 +221,9 @@ void main() {
     });
 
     group('#dispose()', () {
-      test('should close the bloc stream', () {
+      test('should close the bloc onData stream', () {
         expect(
-          bloc.onData.map((state) => state.age),
+          bloc.onData.skip(1).map((state) => state.age),
           neverEmits(12),
         );
 
