@@ -7,10 +7,10 @@ class BidirectionalPeopleBloc
     extends BidirectionalBloc<PeopleBlocEvent, PeopleBlocState> {
   BidirectionalPeopleBloc({
     PeopleBlocState initialState,
-    BlocStateBuilder<PeopleBlocState> builder,
+    BlocStateBuilder<PeopleBlocState> initialStateBuilder,
   }) : super(
           initialState: initialState,
-          stateBuilder: builder,
+          initialStateBuilder: initialStateBuilder,
         );
 
   @override

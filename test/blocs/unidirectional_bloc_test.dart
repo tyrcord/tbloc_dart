@@ -43,7 +43,7 @@ void main() {
         expect(bloc.currentState.age, equals(42));
 
         bloc = UnidirectionalPeopleBloc(
-          builder: () => defaultState,
+          initialStateBuilder: () => defaultState,
         );
 
         expect(bloc.currentState.firstname, equals('foo'));

@@ -9,7 +9,7 @@ abstract class Bloc<S extends BlocState> {
   @protected
   final BehaviorSubject<S> stateController = BehaviorSubject<S>();
   @protected
-  BlocStateBuilder<S> stateBuilder;
+  final BlocStateBuilder<S> initialStateBuilder;
   @protected
   final S initialState;
   @protected
@@ -21,8 +21,8 @@ abstract class Bloc<S extends BlocState> {
 
   Bloc({
     this.initialState,
-    this.stateBuilder,
-  }) : assert(stateBuilder != null || initialState != null) {
+    this.initialStateBuilder,
+  }) : assert(initialStateBuilder != null || initialState != null) {
     setState(getInitialState());
   }
 
@@ -37,7 +37,7 @@ abstract class Bloc<S extends BlocState> {
       return initialState;
     }
 
-    return stateBuilder();
+    return initialStateBuilder();
   }
 
   @protected

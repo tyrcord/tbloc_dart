@@ -5,10 +5,10 @@ import 'package:tbloc_dart/core/types/types.dart';
 abstract class UnidirectionalBloc<S extends BlocState> extends Bloc<S> {
   UnidirectionalBloc({
     S initialState,
-    BlocStateBuilder<S> stateBuilder,
+    BlocStateBuilder<S> initialStateBuilder,
   }) : super(
           initialState: initialState,
-          stateBuilder: stateBuilder,
+          initialStateBuilder: initialStateBuilder,
         );
 
   void reset() => setState(getInitialState());

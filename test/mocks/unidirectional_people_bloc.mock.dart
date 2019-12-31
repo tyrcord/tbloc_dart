@@ -5,10 +5,10 @@ import 'people_bloc_state.mock.dart';
 class UnidirectionalPeopleBloc extends UnidirectionalBloc<PeopleBlocState> {
   UnidirectionalPeopleBloc({
     PeopleBlocState initialState,
-    BlocStateBuilder<PeopleBlocState> builder,
+    BlocStateBuilder<PeopleBlocState> initialStateBuilder,
   }) : super(
           initialState: initialState,
-          stateBuilder: builder,
+          initialStateBuilder: initialStateBuilder,
         );
 
   void put(PeopleBlocState state) {

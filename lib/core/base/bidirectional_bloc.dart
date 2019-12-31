@@ -32,17 +32,17 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
 
   BidirectionalBloc({
     S initialState,
-    BlocStateBuilder<S> stateBuilder,
+    BlocStateBuilder<S> initialStateBuilder,
   }) : super(
           initialState: initialState,
-          stateBuilder: stateBuilder,
+          initialStateBuilder: initialStateBuilder,
         ) {
     internalEventController
         .asyncExpand((BlocEvent event) {
           if (event.error != null) {
             throw (event.error);
-          } else if (event.resetState) {
-            return Stream.value(getInitialState());
+          } else if (event.resetWithState != null) {
+            return Stream.value(event.resetWithState as S);
           }
 
           if (event is E) {
@@ -60,7 +60,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
         });
   }
 
-  void reset() => dispatchEvent(BlocEvent(resetState: true));
+  void reset() => dispatchEvent(BlocEvent(resetWithState: getInitialState()));
 
   @override
   void dispose() {
