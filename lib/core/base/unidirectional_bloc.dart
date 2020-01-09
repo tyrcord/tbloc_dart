@@ -11,5 +11,5 @@ abstract class UnidirectionalBloc<S extends BlocState> extends Bloc<S> {
           initialStateBuilder: initialStateBuilder,
         );
 
-  void reset() => setState(getInitialState());
+  Future<void> reset() async => setState(getInitialState());
 }

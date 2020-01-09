@@ -1,5 +1,4 @@
 @Timeout(Duration(seconds: 5))
-
 import 'package:flutter_test/flutter_test.dart';
 
 import '../mocks/bidirectional_people_bloc.mock.dart';

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -17,6 +19,8 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   final PublishSubject<E> externalEventController = PublishSubject<E>();
   @protected
   Stream<S> mapEventToState(E event, S currentState);
+  @protected
+  Stream<S> onInternalEvent;
 
   Stream<E> get onEvent => externalEventController.stream;
 
@@ -37,30 +41,12 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
         ) {
-    internalEventController
-        .asyncExpand((BlocEvent event) {
-          if (event.error != null) {
-            throw (event.error);
-          } else if (event.resetWithState != null) {
-            return Stream.value(event.resetWithState as S);
-          }
-
-          if (event is E) {
-            externalEventController.sink.add(event);
-
-            final currentState = stateController.value ?? initialState;
-            return mapEventToState(event, currentState);
-          }
-
-          return Stream.value(currentState);
-        })
-        .handleError(handleError)
-        .listen((S nextState) {
-          setState(nextState);
-        });
+    _buildOnInternalEventStream();
+    listenToBlocEvents();
   }
 
-  void reset() => dispatchEvent(BlocEvent(resetWithState: getInitialState()));
+  Future<void> reset() async =>
+      dispatchEvent(BlocEvent(resetWithState: getInitialState()));
 
   @override
   void dispose() {
@@ -72,6 +58,32 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
 
   @protected
   void handleError(Object error) => errorController.sink.add(error);
+
+  @protected
+  void listenToBlocEvents() {
+    onInternalEvent.listen((S nextState) {
+      setState(nextState);
+    });
+  }
+
+  void _buildOnInternalEventStream() {
+    onInternalEvent = internalEventController.asyncExpand((BlocEvent event) {
+      if (event.error != null) {
+        throw (event.error);
+      } else if (event.resetWithState != null) {
+        return Stream.value(event.resetWithState as S);
+      }
+
+      if (event is E) {
+        externalEventController.sink.add(event);
+
+        final currentState = stateController.value ?? initialState;
+        return mapEventToState(event, currentState);
+      }
+
+      return Stream.value(currentState);
+    }).handleError(handleError);
+  }
 
   void _dispatchEvent(BlocEvent event) {}
 }

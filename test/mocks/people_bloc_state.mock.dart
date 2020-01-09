@@ -4,7 +4,7 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 import 'people_bloc_event.mock.dart';
 
 @immutable
-class PeopleBlocState extends BlocState {
+class PeopleBlocState extends HydratedBlocState {
   final String firstname;
   final String lastname;
   final int age;
@@ -13,7 +13,8 @@ class PeopleBlocState extends BlocState {
     this.firstname,
     this.lastname,
     this.age,
-  });
+    bool hydrated,
+  }) : super(hydrated: hydrated);
 
   PeopleBlocState copyWithPayload(PeopleBlocEventPayload payload) {
     return copyWith(
@@ -23,15 +24,18 @@ class PeopleBlocState extends BlocState {
     );
   }
 
+  @override
   PeopleBlocState copyWith({
     String firstname,
     String lastname,
     int age,
+    bool hydrated,
   }) {
     return PeopleBlocState(
       firstname: firstname ?? this.firstname,
       lastname: lastname ?? this.lastname,
       age: age ?? this.age,
+      hydrated: hydrated ?? this.hydrated,
     );
   }
 
