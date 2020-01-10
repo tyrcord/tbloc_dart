@@ -2,13 +2,12 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import '../mocks/bidirectional_hydrated_people_bloc.mock.dart';
-import '../mocks/people_bloc_event.mock.dart';
 import '../mocks/people_bloc_state.mock.dart';
+import '../mocks/unidirectional_hydrated_people_bloc.mock.dart';
 
 void main() {
-  group('BidirectionalHydratedPeopleBloc', () {
-    BidirectionalHydratedPeopleBloc bloc;
+  group('UnidirectionalHydratedPeopleBloc', () {
+    UnidirectionalHydratedPeopleBloc bloc;
 
     final defaultState = PeopleBlocState(
       age: 42,
@@ -17,19 +16,19 @@ void main() {
     );
 
     setUp(() {
-      bloc = BidirectionalHydratedPeopleBloc(initialState: defaultState);
+      bloc = UnidirectionalHydratedPeopleBloc(initialState: defaultState);
     });
 
     tearDown(() {
       bloc.dispose();
     });
 
-    group('#BidirectionalHydratedPeopleBloc()', () {
-      test('should return a BidirectionalHydratedPeopleBloc object', () {
+    group('#UnidirectionalHydratedPeopleBloc()', () {
+      test('should return a UnidirectionalHydratedPeopleBloc object', () {
         expect(
-          BidirectionalHydratedPeopleBloc(
+          UnidirectionalHydratedPeopleBloc(
             initialState: defaultState,
-          ) is BidirectionalHydratedPeopleBloc,
+          ) is UnidirectionalHydratedPeopleBloc,
           equals(true),
         );
       });
@@ -37,23 +36,21 @@ void main() {
 
     group('#hydrate()', () {
       test('should retrieve and set the lasted persited state', () async {
-        final bloc2 = BidirectionalHydratedPeopleBloc(
+        final bloc2 = UnidirectionalHydratedPeopleBloc(
           initialState: defaultState,
         );
 
         await bloc.hydrate();
-
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(
-              age: 24,
-            ),
-          ),
-        );
+        await bloc.put(PeopleBlocState(age: 24));
 
         // wait for the state to be updated
         await Future.delayed(const Duration(microseconds: 100), () {});
         await bloc2.hydrate();
+
+        expect(
+          bloc.currentState.age == 24,
+          equals(true),
+        );
 
         expect(
           bloc2.currentState.age == 24,
@@ -64,11 +61,10 @@ void main() {
 
     group('#reset()', () {
       test('should reset a BLoC\'s state', () async {
-        await bloc.hydrate();
-
         expect(
-          bloc.onData.skip(1).take(3).map((state) => state.age),
+          bloc.onData.take(4).map((state) => state.age),
           emitsInOrder([
+            42,
             24,
             42,
             12,
@@ -76,23 +72,9 @@ void main() {
           ]),
         );
 
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(
-              age: 24,
-            ),
-          ),
-        );
-
+        await bloc.put(PeopleBlocState(age: 24));
         await bloc.reset();
-
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(
-              age: 12,
-            ),
-          ),
-        );
+        await bloc.put(PeopleBlocState(age: 12));
       });
     });
   });

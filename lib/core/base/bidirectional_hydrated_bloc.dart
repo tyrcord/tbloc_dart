@@ -14,10 +14,11 @@ abstract class BidirectionalHydratedBloc<E extends BlocEvent,
   final BlocStore<S> store;
   @protected
   final String persitenceKey;
+  @protected 
+  bool isBlocHydrated = false;
 
   Function(BlocEvent) get dispatchEvent {
-    assert(currentState.hydrated);
-
+    assert(isBlocHydrated);
     return super.dispatchEvent;
   }
 
