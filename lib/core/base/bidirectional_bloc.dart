@@ -3,10 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:tbloc_dart/core/base/base.dart';
-import 'package:tbloc_dart/core/events/events.dart';
-import 'package:tbloc_dart/core/states/states.dart';
-import 'package:tbloc_dart/core/types/types.dart';
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
     extends Bloc<S> {
@@ -45,8 +42,9 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
     listenToBlocEvents();
   }
 
-  Future<void> reset() async =>
-      dispatchEvent(BlocEvent(resetWithState: getInitialState()));
+  Future<void> reset() async => dispatchEvent(BlocEvent(
+        resetWithState: getInitialState(),
+      ));
 
   @override
   void dispose() {
