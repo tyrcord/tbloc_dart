@@ -22,8 +22,13 @@ abstract class Bloc<S extends BlocState> {
   Bloc({
     this.initialState,
     this.initialStateBuilder,
-  }) : assert(initialStateBuilder != null || initialState != null) {
+  }) {
     setState(getInitialState());
+  }
+
+  S initState() {
+    final message = 'A BloC\'s state should be initialized when instancied';
+    throw UnimplementedError(message);
   }
 
   void dispose() {
@@ -37,7 +42,11 @@ abstract class Bloc<S extends BlocState> {
       return initialState;
     }
 
-    return initialStateBuilder();
+    if (initialStateBuilder != null) {
+      return initialStateBuilder();
+    }
+
+    return initState();
   }
 
   @protected
