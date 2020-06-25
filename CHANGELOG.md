@@ -1,3 +1,11 @@
+# Changelog
+
+## [0.4.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.4.0) (2020-06-25)
+
+### Features
+
+- Add Multi Blocs provider
+
 ## [0.3.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.3.0) (2020-05-18)
 
 ### Features
