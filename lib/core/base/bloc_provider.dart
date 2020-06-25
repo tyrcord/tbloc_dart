@@ -1,60 +1,65 @@
+import 'package:provider/single_child_widget.dart';
+import 'package:tbloc_dart/tbloc_dart.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
-import 'package:tbloc_dart/core/states/bloc_state.dart';
-import 'bloc.dart';
+mixin BlocProviderSingleChildWidget on SingleChildWidget {}
 
 class BlocProvider<T extends Bloc<S>, S extends BlocState>
-    extends StatefulWidget {
-  final Widget child;
-  final T bloc;
+    extends SingleChildStatelessWidget with BlocProviderSingleChildWidget {
+  final Dispose<T> _dispose;
+  final Create<T> _create;
+  final bool _lazy;
 
   BlocProvider({
     Key key,
-    @required this.child,
-    @required this.bloc,
-  }) : super(key: key);
+    @required T bloc,
+    Widget child,
+  }) : this._(
+          key: key,
+          create: (_) => bloc,
+          dispose: (_, bloc) => bloc?.dispose(),
+          child: child,
+        );
 
-  @override
-  _BlocProviderState<T, S> createState() => _BlocProviderState<T, S>();
+  BlocProvider.lazy({
+    Key key,
+    @required Create<T> create,
+    Widget child,
+  }) : this._(
+          key: key,
+          create: create,
+          dispose: (_, bloc) => bloc?.dispose(),
+          child: child,
+        );
+
+  BlocProvider._({
+    Key key,
+    Widget child,
+    Dispose<T> dispose,
+    Create<T> create,
+    bool lazy = true,
+  })  : _create = create,
+        _dispose = dispose,
+        _lazy = lazy,
+        super(key: key, child: child);
 
   static T of<T extends Bloc>(BuildContext context) {
-    final provider = context
-        .getElementForInheritedWidgetOfExactType<_BlocProviderInherited<T>>()
-        ?.widget as _BlocProviderInherited<T>;
-    return provider?.bloc;
-  }
-}
-
-class _BlocProviderState<T extends Bloc<S>, S extends BlocState>
-    extends State<BlocProvider<T, S>> {
-  @override
-  void dispose() {
-    widget.bloc?.dispose();
-    super.dispose();
+    return Provider.of<T>(context, listen: false);
   }
 
   @override
-  Widget build(BuildContext context) {
-    return _BlocProviderInherited<T>(
-      bloc: widget.bloc,
-      child: widget.child,
+  Widget buildWithChild(BuildContext context, Widget child) {
+    return InheritedProvider<T>(
+      create: _create,
+      dispose: _dispose,
+      child: child,
+      lazy: _lazy,
     );
   }
 }
 
-class _BlocProviderInherited<T> extends InheritedWidget {
-  final T bloc;
-
-  _BlocProviderInherited({
-    Key key,
-    @required Widget child,
-    @required this.bloc,
-  }) : super(
-          key: key,
-          child: child,
-        );
-
-  @override
-  bool updateShouldNotify(_BlocProviderInherited oldWidget) => false;
+extension BlocProviderExtension on BuildContext {
+  B bloc<B extends Bloc>() => BlocProvider.of<B>(this);
 }
