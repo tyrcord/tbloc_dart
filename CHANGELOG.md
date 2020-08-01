@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.5.0) (2020-08-01)
+
+### Breaking changes
+
+- BlocBuilder callback function takes a third argument, Support errors that could occur.
+
+### Fixes
+
+- Avoid to dispatch null states.
+
 ## [0.4.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.4.0) (2020-06-25)
 
 ### Features
