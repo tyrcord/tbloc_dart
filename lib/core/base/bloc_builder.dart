@@ -18,14 +18,27 @@ class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<S>(
-      stream: bloc.onData,
+    return StreamBuilder<dynamic>(
+      stream: bloc.onError,
       initialData: bloc.currentState,
       builder: (
         BuildContext context,
-        AsyncSnapshot<S> snapshot,
+        AsyncSnapshot<dynamic> errorSnapshot,
       ) {
-        return builder(context, snapshot.data);
+        return StreamBuilder<S>(
+          stream: bloc.onData,
+          initialData: bloc.currentState,
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<S> stateSnapshot,
+          ) {
+            return builder(
+              context,
+              stateSnapshot.data,
+              errorSnapshot.data,
+            );
+          },
+        );
       },
     );
   }

@@ -11,8 +11,6 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   final PublishSubject<BlocEvent> internalEventController =
       PublishSubject<BlocEvent>();
   @protected
-  final PublishSubject<Object> errorController = PublishSubject<Object>();
-  @protected
   final PublishSubject<E> externalEventController = PublishSubject<E>();
   @protected
   Stream<S> mapEventToState(E event, S currentState);
@@ -20,8 +18,6 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   Stream<S> onInternalEvent;
 
   Stream<E> get onEvent => externalEventController.stream;
-
-  Stream<Object> get onError => errorController.stream;
 
   Function(BlocEvent) get dispatchEvent {
     if (!internalEventController.isClosed) {

@@ -4,4 +4,5 @@ import 'package:tbloc_dart/core/states/states.dart';
 typedef BlocBuilder<S extends BlocState> = Widget Function(
   BuildContext context,
   S state,
+  dynamic error,
 );

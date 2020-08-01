@@ -9,6 +9,8 @@ abstract class Bloc<S extends BlocState> {
   @protected
   final BehaviorSubject<S> stateController = BehaviorSubject<S>();
   @protected
+  final PublishSubject<dynamic> errorController = PublishSubject<dynamic>();
+  @protected
   final BlocStateBuilder<S> initialStateBuilder;
   @protected
   final S initialState;
@@ -18,6 +20,8 @@ abstract class Bloc<S extends BlocState> {
   S get currentState => stateController.value;
 
   Stream<S> get onData => stateController.stream;
+
+  Stream<dynamic> get onError => errorController.stream;
 
   Bloc({
     this.initialState,
