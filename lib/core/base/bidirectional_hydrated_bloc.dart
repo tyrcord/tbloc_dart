@@ -14,7 +14,7 @@ abstract class BidirectionalHydratedBloc<E extends BlocEvent,
   final BlocStore<S> store;
   @protected
   final String persitenceKey;
-  @protected 
+  @protected
   bool isBlocHydrated = false;
 
   Function(BlocEvent) get dispatchEvent {
@@ -43,8 +43,6 @@ abstract class BidirectionalHydratedBloc<E extends BlocEvent,
   void listenToBlocEvents() {
     onInternalEvent.asyncExpand((S nextState) {
       return Stream.fromFuture(store.persist(persitenceKey, nextState));
-    }).listen((S nextState) {
-      setState(nextState);
-    });
+    }).listen((S nextState) => setState(nextState));
   }
 }
