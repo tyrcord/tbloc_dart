@@ -55,7 +55,9 @@ abstract class Bloc<S extends BlocState> {
 
   @protected
   void setState(S candidateState) {
-    dispatchState(candidateState);
+    if (candidateState != null) {
+      dispatchState(candidateState);
+    }
   }
 
   @protected
