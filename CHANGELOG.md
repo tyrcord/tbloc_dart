@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.5.1) (2020-08-02)
+
+### Fixes
+
+- Make sure errors are dispatched correctly.
+
 ## [0.5.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.5.0) (2020-08-01)
 
 ### Breaking changes
