@@ -63,6 +63,12 @@ class MyHomePage extends StatelessWidget {
                 'You have pushed the button this many times:',
               ),
               CounterWidget(),
+              MaterialButton(
+                child: Text('ERROR'),
+                onPressed: () {
+                  bloc.dispatchEvent(CounterBlocEvent.error());
+                },
+              ),
             ],
           ),
         ),
@@ -80,8 +86,8 @@ class CounterWidget extends StatelessWidget {
       bloc: bloc,
       builder: (BuildContext context, CounterBlocState state, dynamic error) {
         return Text(
-          '${state.counter}',
-          style: Theme.of(context).textTheme.display1,
+          error != null ? 'error' : '${state.counter}',
+          style: Theme.of(context).textTheme.headline4,
         );
       },
     );
