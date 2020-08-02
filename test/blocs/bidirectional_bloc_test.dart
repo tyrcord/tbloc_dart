@@ -114,21 +114,17 @@ void main() {
         expect(bloc.onError is Stream, equals(true));
       });
 
-      test(
-        'should dispatch an error when an error occurs '
-        'when mapping an event to state',
-        () async {
-          expect(
-            bloc.onError.take(1).map((Object error) => error.toString()),
-            emitsInOrder([
-              'error',
-              emitsDone,
-            ]),
-          );
+      test('should dispatch an error when an error occurs', () async {
+        expect(
+          bloc.onError.take(1).map((Object error) => error.toString()),
+          emitsInOrder([
+            'error',
+            emitsDone,
+          ]),
+        );
 
-          bloc.dispatchEvent(PeopleBlocEvent.error());
-        },
-      );
+        bloc.dispatchEvent(PeopleBlocEvent.error());
+      });
     });
 
     group('#onEvent', () {

@@ -51,18 +51,18 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   }
 
   @protected
-  void handleError(Object error) => errorController.sink.add(error);
+  void handleError(dynamic error) => errorController.sink.add(error);
 
   @protected
   void listenToBlocEvents() {
-    onInternalEvent.listen((S nextState) => setState(nextState));
+    onInternalEvent
+        .handleError((error) => stateController.sink.addError(error))
+        .listen((S nextState) => setState(nextState));
   }
 
   void _buildOnInternalEventStream() {
     onInternalEvent = internalEventController.asyncExpand((BlocEvent event) {
-      if (event.error != null) {
-        throw (event.error);
-      } else if (event.resetWithState != null) {
+      if (event.resetWithState != null) {
         return Stream.value(event.resetWithState as S);
       }
 
@@ -73,7 +73,10 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       }
 
       return Stream.value(currentState);
-    }).handleError(handleError);
+    }).handleError((dynamic error) {
+      handleError(error);
+      throw error;
+    });
   }
 
   void _dispatchEvent(BlocEvent event) {}

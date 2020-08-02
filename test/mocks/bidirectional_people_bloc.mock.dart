@@ -18,6 +18,10 @@ class BidirectionalPeopleBloc
     PeopleBlocEvent event,
     PeopleBlocState currentState,
   ) async* {
-    yield currentState.copyWithPayload(event.payload);
+    if (event.error != null) {
+      throw event.error;
+    } else {
+      yield currentState.copyWithPayload(event.payload);
+    }
   }
 }
