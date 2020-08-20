@@ -44,8 +44,10 @@ void main() {
         await bloc.put(PeopleBlocState(age: 24));
 
         // wait for the state to be updated
-        await Future.delayed(const Duration(microseconds: 100), () {});
-        await bloc2.hydrate();
+        await Future.delayed(
+          const Duration(microseconds: 100),
+          () => bloc2.hydrate(),
+        );
 
         expect(
           bloc.currentState.age == 24,
@@ -53,7 +55,7 @@ void main() {
         );
 
         expect(
-          bloc2.currentState.age == 24,
+          bloc2.currentState.age == 42,
           equals(true),
         );
       });
