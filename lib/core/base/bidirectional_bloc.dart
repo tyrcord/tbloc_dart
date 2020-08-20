@@ -1,9 +1,8 @@
 import 'dart:async';
 
+import 'package:tbloc_dart/tbloc_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'package:tbloc_dart/tbloc_dart.dart';
 
 abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
     extends Bloc<S> {
@@ -51,13 +50,8 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   }
 
   @protected
-  void handleError(dynamic error) => errorController.sink.add(error);
-
-  @protected
   void listenToBlocEvents() {
-    onInternalEvent
-        .handleError((error) => stateController.sink.addError(error))
-        .listen((S nextState) => setState(nextState));
+    onInternalEvent.listen((S nextState) => setState(nextState));
   }
 
   void _buildOnInternalEventStream() {
@@ -69,13 +63,24 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       if (event is E) {
         externalEventController.sink.add(event);
         final currentState = stateController.value ?? initialState;
-        return mapEventToState(event, currentState);
+        final streamController = StreamController<S>.broadcast();
+        final innerSubscription = mapEventToState(
+          event,
+          currentState,
+        ).listen((S state) => streamController.add(state));
+
+        innerSubscription.onDone(() => streamController.close());
+        innerSubscription.onError((dynamic error) {
+          errorController.sink.add(error);
+          streamController.close();
+        });
+
+        return streamController.stream.doOnDone(() {
+          innerSubscription.cancel();
+        });
       }
 
       return Stream.value(currentState);
-    }).handleError((dynamic error) {
-      handleError(error);
-      throw error;
     });
   }
 
