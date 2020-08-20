@@ -17,7 +17,9 @@ abstract class Bloc<S extends BlocState> {
   @protected
   final SubxList subxList = SubxList();
 
-  S get currentState => stateController.value;
+  S _currentState;
+
+  S get currentState => _currentState;
 
   Stream<S> get onData => stateController.stream;
 
@@ -27,7 +29,15 @@ abstract class Bloc<S extends BlocState> {
     this.initialState,
     this.initialStateBuilder,
   }) {
-    setState(getInitialState());
+    _currentState = getInitialState();
+
+    subxList.add(
+      stateController
+          .onErrorReturn(_currentState)
+          .listen((S state) => _currentState = state),
+    );
+
+    setState(_currentState);
   }
 
   S initState() {
