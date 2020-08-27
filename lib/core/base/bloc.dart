@@ -30,13 +30,7 @@ abstract class Bloc<S extends BlocState> {
     this.initialStateBuilder,
   }) {
     _currentState = getInitialState();
-
-    subxList.add(
-      stateController
-          .onErrorReturn(_currentState)
-          .listen((S state) => _currentState = state),
-    );
-
+    subxList.add(stateController.listen((S state) => _currentState = state));
     setState(_currentState);
   }
 

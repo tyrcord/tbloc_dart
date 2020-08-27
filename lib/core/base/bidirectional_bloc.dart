@@ -62,17 +62,17 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
 
       if (event is E) {
         externalEventController.sink.add(event);
-        final currentState = stateController.value ?? initialState;
+        final _currentState = currentState ?? initialState;
         final streamController = StreamController<S>.broadcast();
         final innerSubscription = mapEventToState(
           event,
-          currentState,
+          _currentState,
         ).listen((S state) => streamController.add(state));
 
         innerSubscription.onDone(() => streamController.close());
         innerSubscription.onError((dynamic error) {
+          handleError(error);
           errorController.sink.add(error);
-          stateController.addError(error);
           streamController.close();
         });
 
@@ -86,4 +86,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   }
 
   void _dispatchEvent(BlocEvent event) {}
+
+  @protected
+  void handleError(dynamic error) {}
 }
