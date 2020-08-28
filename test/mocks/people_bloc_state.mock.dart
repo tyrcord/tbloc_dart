@@ -14,7 +14,8 @@ class PeopleBlocState extends HydratedBlocState {
     this.lastname,
     this.age,
     bool hydrated,
-  }) : super(hydrated: hydrated);
+    dynamic exception,
+  }) : super(hydrated: hydrated, exception: exception);
 
   PeopleBlocState copyWithPayload(PeopleBlocEventPayload payload) {
     return copyWith(
@@ -30,12 +31,14 @@ class PeopleBlocState extends HydratedBlocState {
     String lastname,
     int age,
     bool hydrated,
+    dynamic exception,
   }) {
     return PeopleBlocState(
       firstname: firstname ?? this.firstname,
       lastname: lastname ?? this.lastname,
       age: age ?? this.age,
       hydrated: hydrated ?? this.hydrated,
+      exception: exception,
     );
   }
 
