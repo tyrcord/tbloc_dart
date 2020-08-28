@@ -84,9 +84,9 @@ class CounterWidget extends StatelessWidget {
 
     return BlocBuilderWidget(
       bloc: bloc,
-      builder: (BuildContext context, CounterBlocState state, dynamic error) {
+      builder: (BuildContext context, CounterBlocState state) {
         return Text(
-          error != null ? 'error' : '${state.counter}',
+          state.hasException ? state.exception.toString() : '${state.counter}',
           style: Theme.of(context).textTheme.headline4,
         );
       },

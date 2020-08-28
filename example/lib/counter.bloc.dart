@@ -15,9 +15,17 @@ class CounterBloc
       yield CounterBlocState(counter: counter + 1);
     } else if (event.payload == CounterBlocEventAction.error) {
       throw 'error';
+    } else if (event.payload == CounterBlocEventAction.errorRaised) {
+      yield CounterBlocState(exception: 'error');
     } else {
       yield CounterBlocState(counter: counter > 0 ? counter - 1 : 0);
     }
+  }
+
+  @override
+  void handleError(error) {
+    super.handleError(error);
+    dispatchEvent(CounterBlocEvent.errorRaised());
   }
 }
 
@@ -26,7 +34,8 @@ class CounterBlocState extends BlocState {
 
   const CounterBlocState({
     this.counter = 0,
-  }) : super();
+    dynamic exception,
+  }) : super(exception: exception);
 
   @override
   List<Object> get props => [
@@ -38,6 +47,7 @@ enum CounterBlocEventAction {
   increment,
   decrement,
   error,
+  errorRaised,
 }
 
 class CounterBlocEvent extends BlocEvent<CounterBlocEventAction> {
@@ -60,5 +70,9 @@ class CounterBlocEvent extends BlocEvent<CounterBlocEventAction> {
   CounterBlocEvent.error()
       : this(
           action: CounterBlocEventAction.error,
+        );
+  CounterBlocEvent.errorRaised()
+      : this(
+          action: CounterBlocEventAction.errorRaised,
         );
 }

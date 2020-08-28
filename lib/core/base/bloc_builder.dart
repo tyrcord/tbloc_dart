@@ -26,7 +26,6 @@ class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
           return builder(
             context,
             snapshot.data ?? bloc.currentState,
-            snapshot.error,
           );
         }
 
