@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:tbloc_dart/core/states/states.dart';
-import 'package:tbloc_dart/core/types/types.dart';
-import 'bloc.dart';
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
   final BlocBuilder<S> builder;
@@ -20,16 +18,19 @@ class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<S>(
       stream: bloc.onData,
-      initialData: bloc.currentState,
       builder: (
         BuildContext context,
-        AsyncSnapshot<S> stateSnapshot,
+        AsyncSnapshot<S> snapshot,
       ) {
-        return builder(
-          context,
-          stateSnapshot.data ?? bloc.currentState,
-          stateSnapshot.error,
-        );
+        if (snapshot.connectionState == ConnectionState.active) {
+          return builder(
+            context,
+            snapshot.data ?? bloc.currentState,
+            snapshot.error,
+          );
+        }
+
+        return Container();
       },
     );
   }
