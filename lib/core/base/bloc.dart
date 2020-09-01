@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:subx/subx.dart';
 
-import 'package:tbloc_dart/core/states/states.dart';
-import 'package:tbloc_dart/core/types/types.dart';
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 abstract class Bloc<S extends BlocState> {
   @protected

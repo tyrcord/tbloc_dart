@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
-import 'package:tbloc_dart/core/states/bloc_state.dart';
+
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 @immutable
 class BlocEvent<P> extends Object {

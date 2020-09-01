@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tbloc_dart/core/base/base.dart';
+
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 import 'counter.bloc.dart';
 

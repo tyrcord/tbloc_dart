@@ -1,4 +1,3 @@
-import 'package:tbloc_dart/core/base/bidirectional_hydrated_bloc.dart';
 import 'package:tbloc_dart/tbloc_dart.dart';
 
 import 'people_bloc_event.mock.dart';

@@ -1,8 +1,9 @@
 import 'package:provider/single_child_widget.dart';
-import 'package:tbloc_dart/tbloc_dart.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
+
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 mixin BlocProviderSingleChildWidget on SingleChildWidget {}
 

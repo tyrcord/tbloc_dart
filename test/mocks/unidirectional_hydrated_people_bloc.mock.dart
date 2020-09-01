@@ -1,4 +1,3 @@
-import 'package:tbloc_dart/core/base/unidirectional_hydrated_bloc.dart';
 import 'package:tbloc_dart/tbloc_dart.dart';
 
 import 'people_bloc_state.mock.dart';

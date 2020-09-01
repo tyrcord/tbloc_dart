@@ -1,3 +1,3 @@
-import 'package:tbloc_dart/core/states/states.dart';
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 typedef BlocStateBuilder<S extends BlocState> = S Function();

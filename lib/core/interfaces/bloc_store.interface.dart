@@ -1,4 +1,4 @@
-import 'package:tbloc_dart/core/states/bloc_state.dart';
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 abstract class BlocStore<S extends BlocState> {
   Future<S> retrieve(String key);

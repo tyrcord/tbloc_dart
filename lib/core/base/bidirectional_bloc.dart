@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:tbloc_dart/tbloc_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
     extends Bloc<S> {

@@ -38,9 +38,7 @@ class CounterBlocState extends BlocState {
   }) : super(error: exception);
 
   @override
-  List<Object> get props => [
-        counter,
-      ];
+  List<Object> get props => [counter];
 }
 
 enum CounterBlocEventAction {

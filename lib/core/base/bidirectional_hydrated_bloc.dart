@@ -1,11 +1,6 @@
 import 'package:meta/meta.dart';
 
-import 'package:tbloc_dart/core/events/events.dart';
-import 'package:tbloc_dart/core/interfaces/interfaces.dart';
-import 'package:tbloc_dart/core/mixins/mixins.dart';
-import 'package:tbloc_dart/core/states/states.dart';
-import 'package:tbloc_dart/core/types/types.dart';
-import 'bidirectional_bloc.dart';
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 abstract class BidirectionalHydratedBloc<E extends BlocEvent,
         S extends HydratedBlocState> extends BidirectionalBloc<E, S>

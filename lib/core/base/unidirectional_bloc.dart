@@ -1,6 +1,4 @@
-import 'package:tbloc_dart/core/base/base.dart';
-import 'package:tbloc_dart/core/states/states.dart';
-import 'package:tbloc_dart/core/types/types.dart';
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 abstract class UnidirectionalBloc<S extends BlocState> extends Bloc<S> {
   UnidirectionalBloc({

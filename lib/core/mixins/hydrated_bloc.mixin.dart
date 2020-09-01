@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
-import 'package:tbloc_dart/core/base/base.dart';
-import 'package:tbloc_dart/core/interfaces/interfaces.dart';
-import 'package:tbloc_dart/core/states/states.dart';
+
+import 'package:tbloc_dart/tbloc_dart.dart';
 
 mixin HydratedBlocMixin<S extends HydratedBlocState> on Bloc<S> {
   @protected
