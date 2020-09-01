@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+
 import 'package:tbloc_dart/tbloc_dart.dart';
 
 import 'people_bloc_event.mock.dart';
@@ -15,7 +16,7 @@ class PeopleBlocState extends HydratedBlocState {
     this.age,
     bool hydrated,
     dynamic exception,
-  }) : super(hydrated: hydrated, exception: exception);
+  }) : super(hydrated: hydrated, error: exception);
 
   PeopleBlocState copyWithPayload(PeopleBlocEventPayload payload) {
     return copyWith(

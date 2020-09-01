@@ -5,11 +5,9 @@ abstract class HydratedBlocState extends BlocState {
 
   const HydratedBlocState({
     bool hydrated,
-    dynamic exception,
+    dynamic error,
   })  : hydrated = hydrated ?? false,
-        super(exception: exception);
+        super(error: error);
 
-  BlocState copyWith({
-    bool hydrated,
-  });
+  BlocState copyWith({bool hydrated});
 }

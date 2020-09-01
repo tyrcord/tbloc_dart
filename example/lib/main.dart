@@ -86,7 +86,7 @@ class CounterWidget extends StatelessWidget {
       bloc: bloc,
       builder: (BuildContext context, CounterBlocState state) {
         return Text(
-          state.hasException ? state.exception.toString() : '${state.counter}',
+          state.hasError ? state.error.toString() : '${state.counter}',
           style: Theme.of(context).textTheme.headline4,
         );
       },

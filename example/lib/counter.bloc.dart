@@ -35,7 +35,7 @@ class CounterBlocState extends BlocState {
   const CounterBlocState({
     this.counter = 0,
     dynamic exception,
-  }) : super(exception: exception);
+  }) : super(error: exception);
 
   @override
   List<Object> get props => [

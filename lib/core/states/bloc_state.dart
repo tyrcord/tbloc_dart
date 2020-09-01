@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 abstract class BlocState extends Equatable {
-  final dynamic exception;
+  final dynamic error;
 
-  bool get hasException => exception != null;
+  bool get hasError => error != null;
 
-  const BlocState({this.exception});
+  const BlocState({this.error});
 }
