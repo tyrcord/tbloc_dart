@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.6.0) (2020-09-02)
+
+### Breaking Changes
+
+- Refactor BloC's internal errors handling.
+
+### Fixes
+
+- Minor fixes.
+
 ## [0.5.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.5.1) (2020-08-02)
 
 ### Fixes
