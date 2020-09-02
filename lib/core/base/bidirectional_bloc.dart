@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:tbloc_dart/tbloc_dart.dart';
@@ -89,5 +90,18 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   void _dispatchEvent(BlocEvent event) {}
 
   @protected
-  void handleError(dynamic error) {}
+  void handleInternalError(dynamic error) {
+    final logger = Logger(
+      printer: PrettyPrinter(
+        methodCount: 4,
+        errorMethodCount: 8,
+        lineLength: 120,
+        colors: false,
+        printEmojis: true,
+        printTime: false,
+      ),
+    );
+
+    logger.w('[${this.runtimeType}]: Internal Bloc error not handled', error);
+  }
 }
