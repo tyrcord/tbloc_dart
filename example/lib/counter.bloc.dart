@@ -23,8 +23,7 @@ class CounterBloc
   }
 
   @override
-  void handleError(error) {
-    super.handleError(error);
+  void handleInternalError(error) {
     dispatchEvent(CounterBlocEvent.errorRaised());
   }
 }

@@ -24,4 +24,7 @@ class BidirectionalPeopleBloc
       yield currentState.copyWithPayload(event.payload);
     }
   }
+
+  @override
+  void handleInternalError(dynamic error) {}
 }
