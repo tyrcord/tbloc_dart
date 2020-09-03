@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 import 'package:tbloc_dart/tbloc_dart.dart';
 
@@ -22,14 +22,7 @@ class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
         BuildContext context,
         AsyncSnapshot<S> snapshot,
       ) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          return builder(
-            context,
-            snapshot.data ?? bloc.currentState,
-          );
-        }
-
-        return Container();
+        return builder(context, snapshot.data ?? bloc.currentState);
       },
     );
   }
