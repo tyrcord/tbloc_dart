@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.6.1) (2020-09-03)
+
+### Features
+
+- Provide BlocBuilderWidget2 and BlocBuilderWidget3 widgets.
+
+### Fixes
+
+- Only log a warning when an internal error is not handled.
+
 ## [0.6.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.6.0) (2020-09-02)
 
 ### Breaking Changes
