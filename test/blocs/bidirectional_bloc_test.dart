@@ -1,5 +1,6 @@
 @Timeout(Duration(seconds: 5))
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tbloc_dart/core/base/base.dart';
 
 import '../mocks/bidirectional_people_bloc.mock.dart';
 import '../mocks/people_bloc_event.mock.dart';
@@ -116,7 +117,7 @@ void main() {
 
       test('should dispatch an error when an error occurs', () async {
         expect(
-          bloc.onError.take(1).map((Object error) => error.toString()),
+          bloc.onError.take(1).map((BlocError error) => error.source),
           emitsInOrder([
             'error',
             emitsDone,
@@ -180,39 +181,6 @@ void main() {
           );
         },
       );
-    });
-
-    group('#reset()', () {
-      test('should reset a BLoC\'s state', () {
-        expect(
-          bloc.onData.take(4).map((state) => state.age),
-          emitsInOrder([
-            42,
-            24,
-            42,
-            12,
-            emitsDone,
-          ]),
-        );
-
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(
-              age: 24,
-            ),
-          ),
-        );
-
-        bloc.reset();
-
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(
-              age: 12,
-            ),
-          ),
-        );
-      });
     });
 
     group('#dispose()', () {

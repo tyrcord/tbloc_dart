@@ -102,25 +102,6 @@ void main() {
       );
     });
 
-    group('#reset()', () {
-      test('should reset a BLoC\'s state', () {
-        expect(
-          bloc.onData.take(4).map((state) => state.age),
-          emitsInOrder([
-            42,
-            24,
-            42,
-            12,
-            emitsDone,
-          ]),
-        );
-
-        bloc.put(PeopleBlocState(age: 24));
-        bloc.reset();
-        bloc.put(PeopleBlocState(age: 12));
-      });
-    });
-
     group('#dispose()', () {
       test('should close the bloc onData stream', () {
         expect(

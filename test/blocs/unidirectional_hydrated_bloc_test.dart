@@ -60,24 +60,5 @@ void main() {
         );
       });
     });
-
-    group('#reset()', () {
-      test('should reset a BLoC\'s state', () async {
-        expect(
-          bloc.onData.take(4).map((state) => state.age),
-          emitsInOrder([
-            42,
-            24,
-            42,
-            12,
-            emitsDone,
-          ]),
-        );
-
-        await bloc.put(PeopleBlocState(age: 24));
-        await bloc.reset();
-        await bloc.put(PeopleBlocState(age: 12));
-      });
-    });
   });
 }

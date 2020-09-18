@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:tbloc_dart/tbloc_dart.dart';
-
 import 'counter.bloc.dart';
 
 void main() => runApp(MyApp());
@@ -10,11 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'tBloC Demo',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: MyHomePage(title: 'tBloC Demo'),
     );
   }
 }
@@ -55,7 +52,7 @@ class MyHomePage extends StatelessWidget {
                   MaterialButton(
                     child: Text('RESET'),
                     onPressed: () {
-                      bloc.reset();
+                      bloc.dispatchEvent(CounterBlocEvent.reset());
                     },
                   ),
                 ],
@@ -66,9 +63,7 @@ class MyHomePage extends StatelessWidget {
               CounterWidget(),
               MaterialButton(
                 child: Text('ERROR'),
-                onPressed: () {
-                  bloc.dispatchEvent(CounterBlocEvent.error());
-                },
+                onPressed: () => bloc.dispatchEvent(CounterBlocEvent.error()),
               ),
             ],
           ),

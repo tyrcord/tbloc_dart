@@ -68,39 +68,5 @@ void main() {
         );
       });
     });
-
-    group('#reset()', () {
-      test('should reset a BLoC\'s state', () async {
-        await bloc.hydrate();
-
-        expect(
-          bloc.onData.skip(1).take(3).map((state) => state.age),
-          emitsInOrder([
-            24,
-            42,
-            12,
-            emitsDone,
-          ]),
-        );
-
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(
-              age: 24,
-            ),
-          ),
-        );
-
-        await bloc.reset();
-
-        bloc.dispatchEvent(
-          PeopleBlocEvent(
-            payload: PeopleBlocEventPayload(
-              age: 12,
-            ),
-          ),
-        );
-      });
-    });
   });
 }

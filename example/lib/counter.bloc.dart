@@ -11,14 +11,16 @@ class CounterBloc
   ) async* {
     var counter = currentState.counter;
 
-    if (event.payload == CounterBlocEventAction.increment) {
-      yield CounterBlocState(counter: counter + 1);
-    } else if (event.payload == CounterBlocEventAction.error) {
+    if (event.payload == CounterBlocEventAction.Increment) {
+      yield currentState.copyWith(counter: counter + 1);
+    } else if (event.payload == CounterBlocEventAction.Decrement) {
+      yield currentState.copyWith(counter: counter > 0 ? counter - 1 : 0);
+    } else if (event.payload == CounterBlocEventAction.Reset) {
+      yield currentState.copyWith(counter: 0);
+    } else if (event.payload == CounterBlocEventAction.Error) {
       throw 'error';
-    } else if (event.payload == CounterBlocEventAction.errorRaised) {
-      yield CounterBlocState(exception: 'error');
-    } else {
-      yield CounterBlocState(counter: counter > 0 ? counter - 1 : 0);
+    } else if (event.payload == CounterBlocEventAction.ErrorRaised) {
+      yield currentState.copyWith(error: 'error');
     }
   }
 
@@ -33,43 +35,39 @@ class CounterBlocState extends BlocState {
 
   const CounterBlocState({
     this.counter = 0,
-    dynamic exception,
-  }) : super(error: exception);
+    dynamic error,
+  }) : super(error: error);
 
   @override
   List<Object> get props => [counter];
+
+  @override
+  CounterBlocState copyWith({dynamic error, int counter}) {
+    return CounterBlocState(counter: counter ?? this.counter, error: error);
+  }
 }
 
 enum CounterBlocEventAction {
-  increment,
-  decrement,
-  error,
-  errorRaised,
+  Increment,
+  Decrement,
+  Reset,
+  ErrorRaised,
+  Error,
 }
 
 class CounterBlocEvent extends BlocEvent<CounterBlocEventAction> {
   const CounterBlocEvent({
     CounterBlocEventAction action,
-  }) : super(
-          payload: action,
-        );
+  }) : super(payload: action);
 
-  CounterBlocEvent.increment()
-      : this(
-          action: CounterBlocEventAction.increment,
-        );
+  CounterBlocEvent.increment() : this(action: CounterBlocEventAction.Increment);
 
-  CounterBlocEvent.decrement()
-      : this(
-          action: CounterBlocEventAction.decrement,
-        );
+  CounterBlocEvent.decrement() : this(action: CounterBlocEventAction.Decrement);
 
-  CounterBlocEvent.error()
-      : this(
-          action: CounterBlocEventAction.error,
-        );
+  CounterBlocEvent.error() : this(action: CounterBlocEventAction.Error);
+
+  CounterBlocEvent.reset() : this(action: CounterBlocEventAction.Reset);
+
   CounterBlocEvent.errorRaised()
-      : this(
-          action: CounterBlocEventAction.errorRaised,
-        );
+      : this(action: CounterBlocEventAction.ErrorRaised);
 }
