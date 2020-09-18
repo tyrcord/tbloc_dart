@@ -22,16 +22,12 @@ abstract class BidirectionalHydratedBloc<E extends BlocEvent,
     @required this.persitenceKey,
     S initialState,
     BlocStateBuilder<S> initialStateBuilder,
-  }) : super(
+  })  : assert(store != null),
+        assert(persitenceKey != null),
+        super(
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
         );
-
-  @override
-  Future<void> reset() async {
-    final candidateState = getInitialState().copyWith(hydrated: true) as S;
-    dispatchEvent(BlocEvent(resetWithState: candidateState));
-  }
 
   @override
   @protected

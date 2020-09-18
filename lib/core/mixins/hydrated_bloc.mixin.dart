@@ -12,8 +12,11 @@ mixin HydratedBlocMixin<S extends HydratedBlocState> on Bloc<S> {
 
   Future<void> hydrate() async {
     if (!isBlocHydrated) {
-      final candidateState =
-          await store.retrieve(persitenceKey) ?? currentState;
+      final candidateState = await store.retrieve(
+            persitenceKey,
+          ) ??
+          currentState;
+
       setState(candidateState.copyWith(hydrated: true) as S);
       isBlocHydrated = true;
     }

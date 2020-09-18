@@ -39,10 +39,6 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
     listenToBlocEvents();
   }
 
-  Future<void> reset() async => dispatchEvent(
-        BlocEvent(resetWithState: getInitialState()),
-      );
-
   @override
   void dispose() {
     internalEventController.close();
@@ -58,10 +54,6 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
 
   void _buildOnInternalEventStream() {
     onInternalEvent = internalEventController.asyncExpand((BlocEvent event) {
-      if (event.resetWithState != null) {
-        return Stream.value(event.resetWithState as S);
-      }
-
       if (event is E) {
         externalEventController.sink.add(event);
         final _currentState = currentState ?? initialState;

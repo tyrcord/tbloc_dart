@@ -14,15 +14,10 @@ abstract class UnidirectionalHydratedBloc<S extends HydratedBlocState>
     @required this.persitenceKey,
     S initialState,
     BlocStateBuilder<S> initialStateBuilder,
-  }) : super(
+  })  : assert(store != null),
+        assert(persitenceKey != null),
+        super(
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
         );
-
-  @override
-  Future<void> reset() async {
-    final candidateState = getInitialState().copyWith(hydrated: true) as S;
-    setState(candidateState);
-    await store.persist(persitenceKey, candidateState);
-  }
 }
