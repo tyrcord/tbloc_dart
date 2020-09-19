@@ -11,8 +11,8 @@ abstract class BlocState extends Equatable {
     bool isInitializing,
     bool isInitialized,
     this.error,
-  })  : isInitializing = isInitializing ?? false,
-        isInitialized = isInitialized ?? false;
+  })  : this.isInitializing = isInitializing ?? false,
+        this.isInitialized = isInitialized ?? false;
 
   BlocState copyWith();
 }

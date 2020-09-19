@@ -16,6 +16,7 @@ class BlocBuilderWidget2<S1 extends BlocState, S2 extends BlocState>
     @required this.bloc2,
   })  : assert(builder != null),
         assert(bloc1 != null),
+        assert(bloc2 != null),
         super(key: key);
 
   @override

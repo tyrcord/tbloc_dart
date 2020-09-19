@@ -8,7 +8,7 @@ abstract class HydratedBlocState extends BlocState {
     bool isInitialized,
     bool hydrated,
     dynamic error,
-  })  : hydrated = hydrated ?? false,
+  })  : this.hydrated = hydrated ?? false,
         super(
           isInitializing: isInitializing,
           isInitialized: isInitialized,

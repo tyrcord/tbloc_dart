@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 
 @immutable
-class BlocEvent<P> extends Object {
-  final dynamic type;
+class BlocEvent<P, T> extends Object {
+  final T type;
   final Object error;
   final P payload;
 
