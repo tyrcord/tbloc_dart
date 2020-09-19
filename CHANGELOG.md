@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.7.0) (2020-09-19)
+
+### Features
+
+- Add `isInitialized` and `isInitializing` properties to BlocState.
+- Add BlocError Object.
+
+### Breaking Changes
+
+- Add `type` property to the BlocEvent.
+- Remove BloC's `reset` method.
+
 ## [0.6.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.6.1) (2020-09-03)
 
 ### Features
