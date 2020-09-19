@@ -11,15 +11,15 @@ class CounterBloc
   ) async* {
     var counter = currentState.counter;
 
-    if (event.payload == CounterBlocEventAction.increment) {
+    if (event.payload == CounterBlocEventType.increment) {
       yield currentState.copyWith(counter: counter + 1);
-    } else if (event.payload == CounterBlocEventAction.decrement) {
+    } else if (event.payload == CounterBlocEventType.decrement) {
       yield currentState.copyWith(counter: counter > 0 ? counter - 1 : 0);
-    } else if (event.payload == CounterBlocEventAction.reset) {
+    } else if (event.payload == CounterBlocEventType.reset) {
       yield currentState.copyWith(counter: 0);
-    } else if (event.payload == CounterBlocEventAction.error) {
+    } else if (event.payload == CounterBlocEventType.error) {
       throw 'error';
-    } else if (event.payload == CounterBlocEventAction.errorRaised) {
+    } else if (event.payload == CounterBlocEventType.errorRaised) {
       yield currentState.copyWith(error: 'error');
     }
   }
@@ -47,7 +47,7 @@ class CounterBlocState extends BlocState {
   }
 }
 
-enum CounterBlocEventAction {
+enum CounterBlocEventType {
   increment,
   decrement,
   reset,
@@ -55,19 +55,16 @@ enum CounterBlocEventAction {
   error,
 }
 
-class CounterBlocEvent extends BlocEvent<CounterBlocEventAction> {
-  const CounterBlocEvent({
-    CounterBlocEventAction action,
-  }) : super(payload: action);
+class CounterBlocEvent extends BlocEvent<CounterBlocEventType, dynamic> {
+  const CounterBlocEvent({CounterBlocEventType type}) : super(type: type);
 
-  CounterBlocEvent.increment() : this(action: CounterBlocEventAction.increment);
+  CounterBlocEvent.increment() : this(type: CounterBlocEventType.increment);
 
-  CounterBlocEvent.decrement() : this(action: CounterBlocEventAction.decrement);
+  CounterBlocEvent.decrement() : this(type: CounterBlocEventType.decrement);
 
-  CounterBlocEvent.error() : this(action: CounterBlocEventAction.error);
+  CounterBlocEvent.error() : this(type: CounterBlocEventType.error);
 
-  CounterBlocEvent.reset() : this(action: CounterBlocEventAction.reset);
+  CounterBlocEvent.reset() : this(type: CounterBlocEventType.reset);
 
-  CounterBlocEvent.errorRaised()
-      : this(action: CounterBlocEventAction.errorRaised);
+  CounterBlocEvent.errorRaised() : this(type: CounterBlocEventType.errorRaised);
 }

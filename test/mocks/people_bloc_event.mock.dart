@@ -12,7 +12,7 @@ class PeopleBlocEventPayload {
   });
 }
 
-class PeopleBlocEvent extends BlocEvent<PeopleBlocEventPayload> {
+class PeopleBlocEvent extends BlocEvent<dynamic, PeopleBlocEventPayload> {
   PeopleBlocEvent({
     PeopleBlocEventPayload payload,
     Object error,
