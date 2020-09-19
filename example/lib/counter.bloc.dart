@@ -11,15 +11,15 @@ class CounterBloc
   ) async* {
     var counter = currentState.counter;
 
-    if (event.payload == CounterBlocEventType.increment) {
+    if (event.type == CounterBlocEventType.increment) {
       yield currentState.copyWith(counter: counter + 1);
-    } else if (event.payload == CounterBlocEventType.decrement) {
+    } else if (event.type == CounterBlocEventType.decrement) {
       yield currentState.copyWith(counter: counter > 0 ? counter - 1 : 0);
-    } else if (event.payload == CounterBlocEventType.reset) {
+    } else if (event.type == CounterBlocEventType.reset) {
       yield currentState.copyWith(counter: 0);
-    } else if (event.payload == CounterBlocEventType.error) {
+    } else if (event.type == CounterBlocEventType.error) {
       throw 'error';
-    } else if (event.payload == CounterBlocEventType.errorRaised) {
+    } else if (event.type == CounterBlocEventType.errorRaised) {
       yield currentState.copyWith(error: 'error');
     }
   }
