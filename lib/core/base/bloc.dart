@@ -15,6 +15,20 @@ abstract class Bloc<S extends BlocState> {
   final S initialState;
   @protected
   final SubxList subxList = SubxList();
+  @protected
+  bool isInitializing = false;
+  @protected
+  bool get isInitialized => _isInitialized;
+  @protected
+  set isInitialized(bool isInitialized) {
+    if (isInitialized) {
+      isInitializing = false;
+    }
+
+    _isInitialized = isInitialized;
+  }
+
+  bool _isInitialized = false;
 
   S _currentState;
 
