@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.7.1) (2020-09-20)
+
+### Features
+
+- added `isInitializing` and `isInitialized` properties to the abstract Bloc class.
+
 ## [0.7.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.7.0) (2020-09-19)
 
 ### Features
