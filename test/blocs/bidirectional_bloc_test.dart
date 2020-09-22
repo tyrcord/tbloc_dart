@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 @Timeout(Duration(seconds: 5))
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tbloc_dart/core/base/base.dart';
@@ -55,7 +57,7 @@ void main() {
       test('should update a BLoC\'s state when an Event is dispatched',
           () async {
         bloc.dispatchEvent(
-          PeopleBlocEvent(
+          PeopleBlocEvent.updateInformation(
             payload: PeopleBlocEventPayload(
               age: 12,
               lastname: 'qux',
@@ -96,16 +98,43 @@ void main() {
           );
 
           bloc.dispatchEvent(
-            PeopleBlocEvent(
+            PeopleBlocEvent.updateInformation(
               payload: PeopleBlocEventPayload(firstname: 'baz'),
             ),
           );
 
           bloc.dispatchEvent(
-            PeopleBlocEvent(
+            PeopleBlocEvent.updateInformation(
               payload: PeopleBlocEventPayload(firstname: 'qux'),
             ),
           );
+        },
+      );
+
+      test(
+        'should dispatch states in order when a BLoC\'s states change',
+        () async {
+          var i = 0;
+
+          expect(
+            bloc.onData.skip(1).take(3).map((state) {
+              i++;
+
+              if (i == 3) {
+                return state.lastname;
+              }
+
+              return state.isSingle;
+            }),
+            emitsInOrder([
+              true,
+              false,
+              'married',
+              emitsDone,
+            ]),
+          );
+
+          bloc.dispatchEvent(PeopleBlocEvent.marrySomeone());
         },
       );
     });
@@ -134,7 +163,7 @@ void main() {
       });
 
       test('should dispatch an event when a BloC receives an event', () async {
-        final event = PeopleBlocEvent(
+        final event = PeopleBlocEvent.updateInformation(
           payload: PeopleBlocEventPayload(firstname: 'baz'),
         );
 
@@ -166,7 +195,7 @@ void main() {
         'when a BLoC\'s state has been updated',
         () async {
           bloc.dispatchEvent(
-            PeopleBlocEvent(
+            PeopleBlocEvent.updateInformation(
               payload: PeopleBlocEventPayload(firstname: 'baz'),
             ),
           );
@@ -193,7 +222,7 @@ void main() {
         bloc.dispose();
 
         bloc.dispatchEvent(
-          PeopleBlocEvent(
+          PeopleBlocEvent.updateInformation(
             payload: PeopleBlocEventPayload(
               age: 12,
             ),

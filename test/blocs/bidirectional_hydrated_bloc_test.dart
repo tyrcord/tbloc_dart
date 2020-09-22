@@ -44,7 +44,7 @@ void main() {
         await bloc.hydrate();
 
         bloc.dispatchEvent(
-          PeopleBlocEvent(
+          PeopleBlocEvent.updateInformation(
             payload: PeopleBlocEventPayload(
               age: 24,
             ),

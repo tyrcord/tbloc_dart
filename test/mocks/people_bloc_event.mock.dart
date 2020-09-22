@@ -1,25 +1,48 @@
 import 'package:tbloc_dart/tbloc_dart.dart';
 
+enum PeopleBlocEventPayloadType {
+  updateInformation,
+  married,
+  marry,
+  error,
+}
+
 class PeopleBlocEventPayload {
   final String firstname;
   final String lastname;
+  final bool isSingle;
+  final bool isMarrying;
   final int age;
 
   PeopleBlocEventPayload({
     this.firstname,
     this.lastname,
+    this.isSingle,
+    this.isMarrying,
     this.age,
   });
 }
 
-class PeopleBlocEvent extends BlocEvent<dynamic, PeopleBlocEventPayload> {
-  PeopleBlocEvent({
-    PeopleBlocEventPayload payload,
-    Object error,
-  }) : super(
-          payload: payload,
-          error: error,
+class PeopleBlocEvent
+    extends BlocEvent<PeopleBlocEventPayloadType, PeopleBlocEventPayload> {
+  PeopleBlocEvent.error()
+      : super(
+          type: PeopleBlocEventPayloadType.error,
+          error: 'error',
         );
 
-  PeopleBlocEvent.error() : this(error: 'error');
+  PeopleBlocEvent.married({PeopleBlocEventPayload payload})
+      : super(
+          type: PeopleBlocEventPayloadType.married,
+          payload: payload,
+        );
+
+  PeopleBlocEvent.updateInformation({PeopleBlocEventPayload payload})
+      : super(
+          type: PeopleBlocEventPayloadType.updateInformation,
+          payload: payload,
+        );
+
+  PeopleBlocEvent.marrySomeone()
+      : super(type: PeopleBlocEventPayloadType.marry);
 }

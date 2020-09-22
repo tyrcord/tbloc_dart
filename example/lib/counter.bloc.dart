@@ -5,10 +5,7 @@ class CounterBloc
   CounterBloc() : super(initialState: CounterBlocState());
 
   @override
-  Stream<CounterBlocState> mapEventToState(
-    CounterBlocEvent event,
-    CounterBlocState currentState,
-  ) async* {
+  Stream<CounterBlocState> mapEventToState(CounterBlocEvent event) async* {
     var counter = currentState.counter;
 
     if (event.type == CounterBlocEventType.increment) {

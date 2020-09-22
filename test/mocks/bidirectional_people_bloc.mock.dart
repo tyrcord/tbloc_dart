@@ -14,14 +14,22 @@ class BidirectionalPeopleBloc
         );
 
   @override
-  Stream<PeopleBlocState> mapEventToState(
-    PeopleBlocEvent event,
-    PeopleBlocState currentState,
-  ) async* {
-    if (event.error != null) {
+  Stream<PeopleBlocState> mapEventToState(PeopleBlocEvent event) async* {
+    if (event.type == PeopleBlocEventPayloadType.error) {
       throw event.error;
-    } else {
+    } else if (event.type == PeopleBlocEventPayloadType.updateInformation) {
       yield currentState.copyWithPayload(event.payload);
+    } else if (event.type == PeopleBlocEventPayloadType.marry) {
+      yield currentState.copyWith(isMarrying: true);
+      await Future.delayed(Duration(milliseconds: 300));
+      dispatchEvent(PeopleBlocEvent.married());
+    } else if (event.type == PeopleBlocEventPayloadType.married) {
+      yield currentState.copyWith(isSingle: false, isMarrying: false);
+      dispatchEvent(
+        PeopleBlocEvent.updateInformation(
+          payload: PeopleBlocEventPayload(lastname: 'married'),
+        ),
+      );
     }
   }
 

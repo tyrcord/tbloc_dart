@@ -17,10 +17,7 @@ class BidirectionalHydratedPeopleBloc
         );
 
   @override
-  Stream<PeopleBlocState> mapEventToState(
-    PeopleBlocEvent event,
-    PeopleBlocState currentState,
-  ) async* {
+  Stream<PeopleBlocState> mapEventToState(PeopleBlocEvent event) async* {
     yield currentState.copyWithPayload(event.payload);
   }
 

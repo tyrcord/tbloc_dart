@@ -9,6 +9,8 @@ class PeopleBlocState extends HydratedBlocState {
   final String firstname;
   final String lastname;
   final int age;
+  final bool isMarrying;
+  final bool isSingle;
 
   PeopleBlocState({
     this.firstname,
@@ -16,6 +18,8 @@ class PeopleBlocState extends HydratedBlocState {
     this.age,
     bool hydrated,
     dynamic exception,
+    this.isMarrying,
+    this.isSingle = true,
   }) : super(hydrated: hydrated, error: exception);
 
   PeopleBlocState copyWithPayload(PeopleBlocEventPayload payload) {
@@ -23,6 +27,8 @@ class PeopleBlocState extends HydratedBlocState {
       firstname: payload.firstname,
       lastname: payload.lastname,
       age: payload.age,
+      isMarrying: payload.isMarrying,
+      isSingle: payload.isSingle,
     );
   }
 
@@ -33,12 +39,16 @@ class PeopleBlocState extends HydratedBlocState {
     int age,
     bool hydrated,
     dynamic exception,
+    bool isSingle,
+    bool isMarrying,
   }) {
     return PeopleBlocState(
       firstname: firstname ?? this.firstname,
       lastname: lastname ?? this.lastname,
       age: age ?? this.age,
       hydrated: hydrated ?? this.hydrated,
+      isMarrying: isMarrying ?? this.isMarrying,
+      isSingle: isSingle ?? this.isSingle,
       exception: exception,
     );
   }
@@ -47,7 +57,9 @@ class PeopleBlocState extends HydratedBlocState {
   String toString() {
     return 'firstname: $firstname; '
         'lastname: $lastname; '
-        'age: $age';
+        'age: $age'
+        'isMarrying: $isMarrying; '
+        'isSingle: $isSingle';
   }
 
   @override
@@ -55,5 +67,7 @@ class PeopleBlocState extends HydratedBlocState {
         firstname,
         lastname,
         age,
+        isMarrying,
+        isSingle,
       ];
 }
