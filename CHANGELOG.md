@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.8.0) (2020-10-01)
+
+### Breaking Changes
+
+- the method `mapEventToState` doesn't pass the bloc's state as a parameter anymore
+
 ## [0.7.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.7.1) (2020-09-20)
 
 ### Features
