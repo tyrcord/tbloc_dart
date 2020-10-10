@@ -63,7 +63,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
         innerSubscription.onDone(() => streamController.close());
         innerSubscription.onError((dynamic error) {
           handleInternalError(error);
-          errorController.sink.add(this.transformError(error));
+          errorController.sink.add(transformError(error));
           streamController.close();
         });
 
@@ -92,7 +92,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
         ),
       );
 
-      logger.w('[${this.runtimeType}]: Internal Bloc error not handled', error);
+      logger.w('[$runtimeType]: Internal Bloc error not handled', error);
     }
   }
 }

@@ -2,7 +2,7 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 import 'people_bloc_state.mock.dart';
 
 class PeopleBlocStore implements BlocStore<PeopleBlocState> {
-  static final _storage = Map<String, PeopleBlocState>();
+  static final _storage = <String, PeopleBlocState>{};
 
   @override
   Future<void> clear() async => _storage.clear();

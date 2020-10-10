@@ -22,6 +22,6 @@ class BidirectionalHydratedPeopleBloc
   }
 
   Future<PeopleBlocState> getLastPersistedState() {
-    return this.store.retrieve(persitenceKey);
+    return store.retrieve(persitenceKey);
   }
 }

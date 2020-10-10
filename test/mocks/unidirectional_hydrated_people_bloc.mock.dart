@@ -16,7 +16,7 @@ class UnidirectionalHydratedPeopleBloc
         );
 
   Future<PeopleBlocState> getLastPersistedState() {
-    return this.store.retrieve(persitenceKey);
+    return store.retrieve(persitenceKey);
   }
 
   Future<void> put(PeopleBlocState state) async {

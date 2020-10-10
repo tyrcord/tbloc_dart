@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 @Timeout(Duration(seconds: 5))
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tbloc_dart/core/base/base.dart';

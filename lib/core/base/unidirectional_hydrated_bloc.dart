@@ -4,8 +4,11 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 
 abstract class UnidirectionalHydratedBloc<S extends HydratedBlocState>
     extends UnidirectionalBloc<S> with HydratedBlocMixin<S> {
+  @override
   @protected
   final BlocStore<S> store;
+
+  @override
   @protected
   final String persitenceKey;
 
