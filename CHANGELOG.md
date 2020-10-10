@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.9.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.9.0) (2020-10-10)
+
+### Enhancements
+
+- Minor improvements.
+
+### Breaking Changes
+
+- Requires dart 2.10.0
+
 ## [0.8.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.8.0) (2020-10-01)
 
 ### Breaking Changes
