@@ -20,6 +20,8 @@ abstract class Bloc<S extends BlocState> {
   @protected
   bool get isInitialized => _isInitialized;
   @protected
+  final List<PublishSubject> throttlers = [];
+  @protected
   set isInitialized(bool isInitialized) {
     if (isInitialized) {
       isInitializing = false;
@@ -53,8 +55,9 @@ abstract class Bloc<S extends BlocState> {
   }
 
   void dispose() {
-    subxList.cancelAll();
+    throttlers.forEach((PublishSubject throttler) => throttler.close());
     stateController.close();
+    subxList.cancelAll();
   }
 
   @protected
@@ -89,6 +92,18 @@ abstract class Bloc<S extends BlocState> {
   @protected
   BlocError transformError(dynamic error) {
     return BlocError(source: error);
+  }
+
+  @protected
+  Function throttle(Function function, Duration duration) {
+    final throttler = PublishSubject<Function>();
+    throttlers.add(throttler);
+
+    subxList.add(
+      throttler.throttleTime(duration).listen((Function func) => func()),
+    );
+
+    return () => throttler.add(function);
   }
 
   void _dispatchState(S state) {}
