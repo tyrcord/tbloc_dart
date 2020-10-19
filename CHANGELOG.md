@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.10.0) (2020-10-19)
+
+### Features
+
+- Added helpers for throttling events.
+
 ## [0.9.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.9.0) (2020-10-10)
 
 ### Enhancements
