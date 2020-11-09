@@ -18,11 +18,18 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   Stream<S> mapEventToState(E event);
   @protected
   Stream<S> onInternalEvent;
+  @protected
+  bool closed = false;
 
   Stream<E> get onEvent => externalEventController.stream;
 
+  bool get isClosed => closed;
+
   Function(BlocEvent) get dispatchEvent {
-    if (!internalEventController.isClosed) {
+    // We should use a new Future (() => dispatch) in order to add the task
+    // to the end of the event loop.
+
+    if (!isClosed) {
       return internalEventController.sink.add;
     } else {
       log('[$runtimeType]: try to dispatchEvent on disposed bloc');
@@ -44,10 +51,13 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
 
   @override
   void dispose() {
-    internalEventController.close();
-    externalEventController.close();
-    errorController.close();
-    super.dispose();
+    if (!closed) {
+      closed = true;
+      internalEventController.close();
+      externalEventController.close();
+      errorController.close();
+      super.dispose();
+    }
   }
 
   @protected
