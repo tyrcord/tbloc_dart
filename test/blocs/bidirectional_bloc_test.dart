@@ -27,9 +27,10 @@ void main() {
     group('#BidirectionalPeopleBloc()', () {
       test('should return a BidirectionalPeopleBloc object', () {
         expect(
-            BidirectionalPeopleBloc(initialState: defaultState)
-                is BidirectionalPeopleBloc,
-            equals(true));
+          BidirectionalPeopleBloc(initialState: defaultState)
+              is BidirectionalPeopleBloc,
+          equals(true),
+        );
       });
 
       test('should initialize its state', () async {
