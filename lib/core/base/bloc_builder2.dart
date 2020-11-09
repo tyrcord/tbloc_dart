@@ -38,7 +38,7 @@ class _BlocBuilderWidget2State<S1 extends BlocState, S2 extends BlocState>
   void didUpdateWidget(BlocBuilderWidget2<S1, S2> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.bloc1 != widget.bloc1 || oldWidget.bloc1 != widget.bloc2) {
+    if (oldWidget.bloc1 != widget.bloc1 || oldWidget.bloc2 != widget.bloc2) {
       _buildStream();
     }
   }
