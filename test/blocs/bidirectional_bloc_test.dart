@@ -136,6 +136,30 @@ void main() {
           bloc.dispatchEvent(PeopleBlocEvent.marrySomeone());
         },
       );
+
+      test(
+        'should not dispatch when the state has not changed',
+        () async {
+          var count = 0;
+          var listenCallback = (state) => count++;
+          var listenCallbackAsync1 = expectAsync1(listenCallback, count: 1);
+          var event = PeopleBlocEvent.updateInformation(
+            payload: PeopleBlocEventPayload(
+              age: 12,
+              lastname: 'qux',
+            ),
+          );
+
+          bloc.onData.skip(1).listen(listenCallbackAsync1);
+
+          bloc.dispatchEvent(event);
+          bloc.dispatchEvent(event);
+
+          await Future.delayed(const Duration(milliseconds: 300), () {
+            expect(count, equals(1));
+          });
+        },
+      );
     });
 
     group('#onError', () {

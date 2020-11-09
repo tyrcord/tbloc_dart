@@ -36,7 +36,7 @@ abstract class Bloc<S extends BlocState> {
 
   S get currentState => _currentState;
 
-  Stream<S> get onData => stateController.stream;
+  Stream<S> get onData => stateController.stream.distinct();
 
   Stream<BlocError> get onError => errorController.stream;
 
