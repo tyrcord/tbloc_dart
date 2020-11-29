@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.2](https://github.com/tyrcord/tbloc_dart/releases/tag/0.10.2) (2020-11-29)
+
+### Enhancements
+
+- added stackTrace property to BlocError.
+
 ## [0.10.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.10.1) (2020-11-11)
 
 ### Enhancements
