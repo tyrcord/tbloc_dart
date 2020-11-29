@@ -74,9 +74,9 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
             .listen((S state) => streamController.add(state));
 
         innerSubscription.onDone(() => streamController.close());
-        innerSubscription.onError((dynamic error) {
+        innerSubscription.onError((dynamic error, StackTrace stackTrace) {
           handleInternalError(error);
-          errorController.sink.add(transformError(error));
+          errorController.sink.add(transformError(error, stackTrace));
           streamController.close();
         });
 

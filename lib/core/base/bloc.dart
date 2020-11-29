@@ -90,8 +90,8 @@ abstract class Bloc<S extends BlocState> {
   }
 
   @protected
-  BlocError transformError(dynamic error) {
-    return BlocError(source: error);
+  BlocError transformError(dynamic error, StackTrace stackTrace) {
+    return BlocError(source: error, stackTrace: stackTrace);
   }
 
   @protected
