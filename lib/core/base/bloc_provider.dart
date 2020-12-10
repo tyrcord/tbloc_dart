@@ -7,6 +7,10 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 
 mixin BlocProviderSingleChildWidget on SingleChildWidget {}
 
+///
+/// Widget used as a dependency injection mechanism in order to provide to
+/// multiple widgets a single instance of a BloC.
+///
 class BlocProvider<T extends Bloc<S>, S extends BlocState>
     extends SingleChildStatelessWidget with BlocProviderSingleChildWidget {
   final Dispose<T> _dispose;
@@ -20,7 +24,7 @@ class BlocProvider<T extends Bloc<S>, S extends BlocState>
   }) : this._(
           key: key,
           create: (_) => bloc,
-          dispose: (_, bloc) => bloc?.dispose(),
+          dispose: (_, bloc) => bloc?.close(),
           child: child,
         );
 
@@ -31,7 +35,7 @@ class BlocProvider<T extends Bloc<S>, S extends BlocState>
   }) : this._(
           key: key,
           create: create,
-          dispose: (_, bloc) => bloc?.dispose(),
+          dispose: (_, bloc) => bloc?.close(),
           child: child,
         );
 

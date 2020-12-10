@@ -22,7 +22,7 @@ void main() {
     });
 
     tearDown(() {
-      bloc.dispose();
+      bloc.close();
     });
 
     group('#UnidirectionalPeopleBloc()', () {
@@ -102,14 +102,14 @@ void main() {
       );
     });
 
-    group('#dispose()', () {
+    group('#close()', () {
       test('should close the bloc onData stream', () {
         expect(
           bloc.onData.skip(1).map((state) => state.age),
           neverEmits(12),
         );
 
-        bloc.dispose();
+        bloc.close();
         bloc.put(PeopleBlocState(age: 12));
       });
     });

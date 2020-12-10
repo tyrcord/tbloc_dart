@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:tbloc_dart/tbloc_dart.dart';
 
+///
+/// Handles building a widget when BloC's state changes.
+///
 class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
   final BlocBuilder<S> builder;
   final Bloc<S> bloc;

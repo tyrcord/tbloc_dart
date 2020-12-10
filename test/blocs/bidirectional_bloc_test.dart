@@ -21,7 +21,7 @@ void main() {
     });
 
     tearDown(() {
-      bloc.dispose();
+      bloc.close();
     });
 
     group('#BidirectionalPeopleBloc()', () {
@@ -52,10 +52,10 @@ void main() {
       });
     });
 
-    group('#dispatchEvent()', () {
+    group('#addEvent()', () {
       test('should update a BLoC\'s state when an Event is dispatched',
           () async {
-        bloc.dispatchEvent(
+        bloc.addEvent(
           PeopleBlocEvent.updateInformation(
             payload: PeopleBlocEventPayload(
               age: 12,
@@ -96,13 +96,13 @@ void main() {
             ]),
           );
 
-          bloc.dispatchEvent(
+          bloc.addEvent(
             PeopleBlocEvent.updateInformation(
               payload: PeopleBlocEventPayload(firstname: 'baz'),
             ),
           );
 
-          bloc.dispatchEvent(
+          bloc.addEvent(
             PeopleBlocEvent.updateInformation(
               payload: PeopleBlocEventPayload(firstname: 'qux'),
             ),
@@ -133,7 +133,7 @@ void main() {
             ]),
           );
 
-          bloc.dispatchEvent(PeopleBlocEvent.marrySomeone());
+          bloc.addEvent(PeopleBlocEvent.marrySomeone());
         },
       );
 
@@ -152,8 +152,8 @@ void main() {
 
           bloc.onData.skip(1).listen(listenCallbackAsync1);
 
-          bloc.dispatchEvent(event);
-          bloc.dispatchEvent(event);
+          bloc.addEvent(event);
+          bloc.addEvent(event);
 
           await Future.delayed(const Duration(milliseconds: 300), () {
             expect(count, equals(1));
@@ -176,7 +176,7 @@ void main() {
           ]),
         );
 
-        bloc.dispatchEvent(PeopleBlocEvent.error());
+        bloc.addEvent(PeopleBlocEvent.error());
       });
     });
 
@@ -198,7 +198,7 @@ void main() {
           ]),
         );
 
-        bloc.dispatchEvent(event);
+        bloc.addEvent(event);
       });
     });
 
@@ -217,7 +217,7 @@ void main() {
         'should return the lastest state '
         'when a BLoC\'s state has been updated',
         () async {
-          bloc.dispatchEvent(
+          bloc.addEvent(
             PeopleBlocEvent.updateInformation(
               payload: PeopleBlocEventPayload(firstname: 'baz'),
             ),
@@ -235,16 +235,16 @@ void main() {
       );
     });
 
-    group('#dispose()', () {
+    group('#close()', () {
       test('should close the bloc onData stream', () {
         expect(
           bloc.onData.skip(1).map((state) => state.age),
           neverEmits(12),
         );
 
-        bloc.dispose();
+        bloc.close();
 
-        bloc.dispatchEvent(
+        bloc.addEvent(
           PeopleBlocEvent.updateInformation(
             payload: PeopleBlocEventPayload(
               age: 12,

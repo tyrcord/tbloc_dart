@@ -20,7 +20,7 @@ void main() {
     });
 
     tearDown(() {
-      bloc.dispose();
+      bloc.close();
     });
 
     group('#UnidirectionalHydratedPeopleBloc()', () {

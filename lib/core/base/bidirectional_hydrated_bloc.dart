@@ -2,6 +2,10 @@ import 'package:meta/meta.dart';
 
 import 'package:tbloc_dart/tbloc_dart.dart';
 
+///
+/// Takes a Stream of BlocEvents as input and transforms them into a Stream of
+/// BlocStates as output.
+///
 abstract class BidirectionalHydratedBloc<E extends BlocEvent,
         S extends HydratedBlocState> extends BidirectionalBloc<E, S>
     with HydratedBlocMixin<S> {
@@ -18,9 +22,9 @@ abstract class BidirectionalHydratedBloc<E extends BlocEvent,
   bool isBlocHydrated = false;
 
   @override
-  Function(BlocEvent) get dispatchEvent {
+  Function(BlocEvent) get addEvent {
     assert(isBlocHydrated);
-    return super.dispatchEvent;
+    return super.addEvent;
   }
 
   BidirectionalHydratedBloc({

@@ -21,7 +21,7 @@ void main() {
     });
 
     tearDown(() {
-      bloc.dispose();
+      bloc.close();
     });
 
     group('#BidirectionalHydratedPeopleBloc()', () {
@@ -43,7 +43,7 @@ void main() {
 
         await bloc.hydrate();
 
-        bloc.dispatchEvent(
+        bloc.addEvent(
           PeopleBlocEvent.updateInformation(
             payload: PeopleBlocEventPayload(
               age: 24,

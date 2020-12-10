@@ -23,7 +23,7 @@ class CounterBloc
 
   @override
   void handleInternalError(error) {
-    dispatchEvent(CounterBlocEvent.errorRaised());
+    addEvent(CounterBlocEvent.errorRaised());
   }
 }
 

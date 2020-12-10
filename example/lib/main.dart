@@ -40,19 +40,19 @@ class MyHomePage extends StatelessWidget {
                   MaterialButton(
                     child: Text('INCREMENT'),
                     onPressed: () {
-                      bloc.dispatchEvent(CounterBlocEvent.increment());
+                      bloc.addEvent(CounterBlocEvent.increment());
                     },
                   ),
                   MaterialButton(
                     child: Text('DECREMENT'),
                     onPressed: () {
-                      bloc.dispatchEvent(CounterBlocEvent.decrement());
+                      bloc.addEvent(CounterBlocEvent.decrement());
                     },
                   ),
                   MaterialButton(
                     child: Text('RESET'),
                     onPressed: () {
-                      bloc.dispatchEvent(CounterBlocEvent.reset());
+                      bloc.addEvent(CounterBlocEvent.reset());
                     },
                   ),
                 ],
@@ -63,7 +63,7 @@ class MyHomePage extends StatelessWidget {
               CounterWidget(),
               MaterialButton(
                 child: Text('ERROR'),
-                onPressed: () => bloc.dispatchEvent(CounterBlocEvent.error()),
+                onPressed: () => bloc.addEvent(CounterBlocEvent.error()),
               ),
             ],
           ),

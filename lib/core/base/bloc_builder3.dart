@@ -3,6 +3,9 @@ import 'package:rxdart/rxdart.dart';
 
 import 'package:tbloc_dart/tbloc_dart.dart';
 
+///
+/// Handles building a widget when three BloC states change.
+///
 class BlocBuilderWidget3<S1 extends BlocState, S2 extends BlocState,
     S3 extends BlocState> extends StatefulWidget {
   final BlocBuilder3<S1, S2, S3> builder;

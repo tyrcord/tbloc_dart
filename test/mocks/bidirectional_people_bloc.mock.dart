@@ -22,10 +22,10 @@ class BidirectionalPeopleBloc
     } else if (event.type == PeopleBlocEventPayloadType.marry) {
       yield currentState.copyWith(isMarrying: true);
       await Future.delayed(Duration(milliseconds: 300));
-      dispatchEvent(PeopleBlocEvent.married());
+      addEvent(PeopleBlocEvent.married());
     } else if (event.type == PeopleBlocEventPayloadType.married) {
       yield currentState.copyWith(isSingle: false, isMarrying: false);
-      dispatchEvent(
+      addEvent(
         PeopleBlocEvent.updateInformation(
           payload: PeopleBlocEventPayload(lastname: 'married'),
         ),
