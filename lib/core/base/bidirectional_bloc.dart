@@ -178,11 +178,9 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   @mustCallSuper
   void close() {
     if (!closed) {
-      closed = true;
+      super.close();
       internalEventController.close();
       externalEventController.close();
-      errorController.close();
-      super.close();
     }
   }
 }

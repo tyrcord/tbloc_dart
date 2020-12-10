@@ -152,8 +152,12 @@ abstract class Bloc<S extends BlocState> {
   ///
   @mustCallSuper
   void close() {
-    throttlers.forEach((PublishSubject throttler) => throttler.close());
-    stateController.close();
-    subxList.cancelAll();
+    if (!closed) {
+      closed = true;
+      throttlers.forEach((PublishSubject throttler) => throttler.close());
+      stateController.close();
+      errorController.close();
+      subxList.cancelAll();
+    }
   }
 }

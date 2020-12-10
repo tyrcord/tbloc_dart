@@ -138,7 +138,7 @@ void main() {
       );
 
       test(
-        'should not dispatch when the state has not changed',
+        'should not dispatch states when the state has not changed',
         () async {
           var count = 0;
           var listenCallback = (state) => count++;
@@ -185,26 +185,29 @@ void main() {
         expect(bloc.onEvent is Stream, equals(true));
       });
 
-      test('should dispatch an event when a BloC receives an event', () async {
-        final event = PeopleBlocEvent.updateInformation(
-          payload: PeopleBlocEventPayload(firstname: 'baz'),
-        );
+      test(
+        'should dispatch an event when an event is added to a BloC',
+        () async {
+          final event = PeopleBlocEvent.updateInformation(
+            payload: PeopleBlocEventPayload(firstname: 'baz'),
+          );
 
-        expect(
-          bloc.onEvent.take(1),
-          emitsInOrder([
-            event,
-            emitsDone,
-          ]),
-        );
+          expect(
+            bloc.onEvent.take(1),
+            emitsInOrder([
+              event,
+              emitsDone,
+            ]),
+          );
 
-        bloc.addEvent(event);
-      });
+          bloc.addEvent(event);
+        },
+      );
     });
 
     group('#currentState', () {
       test(
-        'should return the inital state when a BLoC has been instantiated',
+        'should return the initial state when a BLoC has been instantiated',
         () {
           final state = bloc.currentState;
           expect(state.firstname, equals('foo'));
@@ -214,7 +217,7 @@ void main() {
       );
 
       test(
-        'should return the lastest state '
+        'should return the latest state '
         'when a BLoC\'s state has been updated',
         () async {
           bloc.addEvent(
@@ -236,7 +239,7 @@ void main() {
     });
 
     group('#close()', () {
-      test('should close the bloc onData stream', () {
+      test('should close bloC streams', () {
         expect(
           bloc.onData.skip(1).map((state) => state.age),
           neverEmits(12),
@@ -251,6 +254,8 @@ void main() {
             ),
           ),
         );
+
+        expect(bloc.isClosed, equals(true));
       });
     });
   });

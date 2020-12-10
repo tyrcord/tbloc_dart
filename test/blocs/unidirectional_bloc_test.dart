@@ -85,7 +85,7 @@ void main() {
       );
 
       test(
-        'should return the lastest state '
+        'should return the latest state '
         'when a BLoC\'s state has been updated',
         () async {
           bloc.put(PeopleBlocState(firstname: 'baz'));
@@ -103,7 +103,7 @@ void main() {
     });
 
     group('#close()', () {
-      test('should close the bloc onData stream', () {
+      test('should close Bloc streams', () {
         expect(
           bloc.onData.skip(1).map((state) => state.age),
           neverEmits(12),
@@ -111,6 +111,7 @@ void main() {
 
         bloc.close();
         bloc.put(PeopleBlocState(age: 12));
+        expect(bloc.isClosed, equals(true));
       });
     });
   });
