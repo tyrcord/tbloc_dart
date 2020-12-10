@@ -258,5 +258,33 @@ void main() {
         expect(bloc.isClosed, equals(true));
       });
     });
+
+    group('#throttle()', () {
+      test('should return a throttled function', () async {
+        final throttled = bloc.putThrottleEvent(
+          (event) => bloc.addEvent(event),
+        );
+
+        throttled(PeopleBlocEvent.updateInformation(
+          payload: PeopleBlocEventPayload(firstname: 'baz'),
+        ));
+
+        throttled(PeopleBlocEvent.updateInformation(
+          payload: PeopleBlocEventPayload(firstname: 'qux'),
+        ));
+
+        throttled(PeopleBlocEvent.updateInformation(
+          payload: PeopleBlocEventPayload(firstname: 'foo'),
+        ));
+
+        await Future.delayed(
+          const Duration(microseconds: 350),
+          () {
+            final state = bloc.currentState;
+            expect(state.firstname, equals('baz'));
+          },
+        );
+      });
+    });
   });
 }

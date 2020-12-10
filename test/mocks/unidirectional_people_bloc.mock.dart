@@ -14,4 +14,6 @@ class UnidirectionalPeopleBloc extends UnidirectionalBloc<PeopleBlocState> {
   void put(PeopleBlocState state) {
     setState(state);
   }
+
+  Function putThrottle(Function function) => throttle(function);
 }

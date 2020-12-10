@@ -114,5 +114,24 @@ void main() {
         expect(bloc.isClosed, equals(true));
       });
     });
+
+    group('#throttle()', () {
+      test('should return a throttled function', () async {
+        var count = 0;
+
+        final throttled = bloc.putThrottle(() => count++);
+
+        throttled();
+        throttled();
+        throttled();
+
+        expect(count, equals(0));
+
+        await Future.delayed(
+          const Duration(microseconds: 350),
+          () => expect(count, equals(1)),
+        );
+      });
+    });
   });
 }

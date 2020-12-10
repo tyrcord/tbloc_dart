@@ -35,4 +35,10 @@ class BidirectionalPeopleBloc
 
   @override
   void handleInternalError(dynamic error) {}
+
+  BlocEventCallback<PeopleBlocEvent> putThrottleEvent(
+    BlocEventCallback<PeopleBlocEvent> function,
+  ) {
+    return throttleEvent(function);
+  }
 }
