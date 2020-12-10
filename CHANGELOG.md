@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.11.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.11.0) (2020-12-10)
+
+### Enhancements
+
+- Minor improvements.
+
+### Breaking Changes
+
+- Renamed `dispatchEvent` to `addEvent`.
+- Renamed `dispose` to `close`.
+
 ## [0.10.2](https://github.com/tyrcord/tbloc_dart/releases/tag/0.10.2) (2020-11-29)
 
 ### Enhancements
