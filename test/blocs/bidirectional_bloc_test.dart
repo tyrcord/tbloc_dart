@@ -2,6 +2,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tbloc_dart/core/base/base.dart';
 
+import '../mocks/bidirectional_people_async_bloc.mock.dart';
 import '../mocks/bidirectional_people_bloc.mock.dart';
 import '../mocks/people_bloc_event.mock.dart';
 import '../mocks/people_bloc_state.mock.dart';
@@ -152,6 +153,34 @@ void main() {
           );
 
           bloc.addEvent(PeopleBlocEvent.marrySomeone());
+        },
+      );
+
+      test(
+        'should not dispatch states in order '
+        'when the method shouldProcessEventInOrder returns false',
+        () async {
+          var bloc2 = BidirectionalPeopleAsyncBloc(initialState: defaultState);
+
+          expect(
+            bloc2.onData.skip(1).take(1),
+            emitsInOrder([
+              defaultState.copyWith(age: 88),
+              emitsDone,
+            ]),
+          );
+
+          bloc2.addEvent(
+            PeopleBlocEvent.updateInformation(
+              payload: PeopleBlocEventPayload(age: 12),
+            ),
+          );
+
+          bloc2.addEvent(
+            PeopleBlocEvent.updateInformation(
+              payload: PeopleBlocEventPayload(age: 88),
+            ),
+          );
         },
       );
 

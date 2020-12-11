@@ -64,38 +64,70 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
         ) {
-    _buildOnInternalEventStream();
+    _handleEvents();
   }
 
   ///
-  /// Initializes internal event to state logic.
+  /// Determines whether a bloc ensures all `events` are processed in
+  /// the order in which they are received.
   ///
-  void _buildOnInternalEventStream() {
-    internalEventController.asyncExpand((BlocEvent event) {
-      if (event is E) {
-        externalEventController.sink.add(event);
-        final streamController = StreamController<S>.broadcast();
-        final innerSubscription = mapEventToState(event)
-            .where((S state) => state != null)
-            .listen((S nextState) {
-          state = nextState;
-          streamController.add(nextState);
-        });
+  @protected
+  bool shouldProcessEventInOrder() => true;
 
-        innerSubscription.onDone(() => streamController.close());
-        innerSubscription.onError((dynamic error, StackTrace stackTrace) {
-          handleInternalError(error);
-          errorController.sink.add(transformError(error, stackTrace));
-          streamController.close();
-        });
+  ///
+  /// Handles BloC events.
+  ///
+  void _handleEvents() {
+    _transformEvents().listen((S state) {
+      setState(state);
+    });
+  }
 
-        return streamController.stream.doOnDone(() {
-          innerSubscription.cancel();
-        });
-      }
+  ///
+  /// Transforms each event into a sequence of asynchronous events or will
+  /// only use the very latest event according to the property
+  /// `shouldProcessEventInOrder`.
+  ///
+  /// By default `asyncExpand` is used to ensure all `events` are processed in
+  /// the order in which they are received.
+  ///
+  /// `switchMap` can be used if you want some scenarios to not complete.
+  ///
+  Stream<S> _transformEvents() {
+    if (shouldProcessEventInOrder()) {
+      return internalEventController.asyncExpand(_handleEvent);
+    }
 
-      return Stream.value(currentState);
-    }).listen((S state) => setState(state));
+    return internalEventController.switchMap(_handleEvent);
+  }
+
+  ///
+  /// Handles an BloC Event.
+  ///
+  Stream<S> _handleEvent(BlocEvent event) {
+    if (event is E) {
+      externalEventController.sink.add(event);
+      final streamController = StreamController<S>.broadcast();
+      final innerSubscription = mapEventToState(event)
+          .where((S state) => state != null)
+          .listen((S nextState) {
+        state = nextState;
+        streamController.add(nextState);
+      });
+
+      innerSubscription.onDone(() => streamController.close());
+      innerSubscription.onError((dynamic error, StackTrace stackTrace) {
+        handleInternalError(error);
+        errorController.sink.add(transformError(error, stackTrace));
+        streamController.close();
+      });
+
+      return streamController.stream.doOnDone(() {
+        innerSubscription.cancel();
+      });
+    }
+
+    return Stream.value(currentState);
   }
 
   ///
