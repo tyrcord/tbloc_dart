@@ -5,6 +5,7 @@ enum PeopleBlocEventPayloadType {
   married,
   marry,
   error,
+  multiple,
 }
 
 class PeopleBlocEventPayload {
@@ -45,4 +46,7 @@ class PeopleBlocEvent
 
   PeopleBlocEvent.marrySomeone()
       : super(type: PeopleBlocEventPayloadType.marry);
+
+  PeopleBlocEvent.updateMultipleInformation()
+      : super(type: PeopleBlocEventPayloadType.multiple);
 }

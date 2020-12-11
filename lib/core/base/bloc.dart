@@ -37,7 +37,8 @@ abstract class Bloc<S extends BlocState> {
 
   bool _isInitialized = false;
 
-  S _currentState;
+  @protected
+  S state;
 
   ///
   /// Whether the BloC is closed for dispatching more events.
@@ -47,7 +48,7 @@ abstract class Bloc<S extends BlocState> {
   ///
   /// The current BloC's state.
   ///
-  S get currentState => _currentState;
+  S get currentState => state;
 
   ///
   /// Called whenever the BloC's state is updated.
@@ -63,9 +64,7 @@ abstract class Bloc<S extends BlocState> {
     this.initialState,
     this.initialStateBuilder,
   }) {
-    _currentState = getInitialState();
-    subxList.add(stateController.listen((S state) => _currentState = state));
-    setState(_currentState);
+    setState(getInitialState());
   }
 
   ///
@@ -97,9 +96,10 @@ abstract class Bloc<S extends BlocState> {
   /// Set the BloC state.
   ///
   @protected
-  void setState(S candidateState) {
-    if (candidateState != null) {
-      dispatchState(candidateState);
+  void setState(S nextState) {
+    if (nextState != null) {
+      state = nextState;
+      dispatchState(nextState);
     }
   }
 

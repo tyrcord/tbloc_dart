@@ -30,6 +30,14 @@ class BidirectionalPeopleBloc
           payload: PeopleBlocEventPayload(lastname: 'married'),
         ),
       );
+    } else if (event.type == PeopleBlocEventPayloadType.multiple) {
+      yield currentState.copyWithPayload(PeopleBlocEventPayload(age: 1));
+
+      yield null;
+
+      yield currentState.copyWithPayload(
+        PeopleBlocEventPayload(firstname: 'multi'),
+      );
     }
   }
 

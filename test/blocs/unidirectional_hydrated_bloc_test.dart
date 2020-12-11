@@ -55,7 +55,7 @@ void main() {
         );
 
         expect(
-          bloc2.currentState.age == 42,
+          bloc2.currentState.age == 24,
           equals(true),
         );
       });

@@ -19,13 +19,11 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       PublishSubject<BlocEvent>();
   @protected
   final PublishSubject<E> externalEventController = PublishSubject<E>();
-  @protected
-  Stream<S> onInternalEvent;
 
   ///
   /// Must be implemented when a class extends BidirectionalBloc.
   /// `mapEventToState` is called whenever an event is added and will convert
-  /// that event into a new BloC state. It can only yyield zero or one state
+  /// that event into a new BloC state. It can yield zero, one or several states
   /// for an event.
   ///
   @protected
@@ -67,19 +65,22 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
           initialStateBuilder: initialStateBuilder,
         ) {
     _buildOnInternalEventStream();
-    listenToBlocEvents();
   }
 
   ///
   /// Initializes internal event to state logic.
   ///
   void _buildOnInternalEventStream() {
-    onInternalEvent = internalEventController.asyncExpand((BlocEvent event) {
+    internalEventController.asyncExpand((BlocEvent event) {
       if (event is E) {
         externalEventController.sink.add(event);
         final streamController = StreamController<S>.broadcast();
         final innerSubscription = mapEventToState(event)
-            .listen((S state) => streamController.add(state));
+            .where((S state) => state != null)
+            .listen((S nextState) {
+          state = nextState;
+          streamController.add(nextState);
+        });
 
         innerSubscription.onDone(() => streamController.close());
         innerSubscription.onError((dynamic error, StackTrace stackTrace) {
@@ -94,15 +95,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       }
 
       return Stream.value(currentState);
-    });
-  }
-
-  ///
-  /// Listens to internal events.
-  ///
-  @protected
-  void listenToBlocEvents() {
-    onInternalEvent.listen((S nextState) => setState(nextState));
+    }).listen((S state) => setState(state));
   }
 
   ///

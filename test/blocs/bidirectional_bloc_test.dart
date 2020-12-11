@@ -76,6 +76,24 @@ void main() {
           equals(true),
         );
       });
+
+      test(
+        'should update a BLoC\'s state when mapEventToState yield more '
+        'than one state',
+        () async {
+          final people = bloc.currentState;
+
+          expect(
+            bloc.onData.skip(1).take(2),
+            emitsInOrder([
+              people.copyWith(age: 1),
+              people.copyWith(age: 1, firstname: 'multi'),
+            ]),
+          );
+
+          bloc.addEvent(PeopleBlocEvent.updateMultipleInformation());
+        },
+      );
     });
 
     group('#onData', () {

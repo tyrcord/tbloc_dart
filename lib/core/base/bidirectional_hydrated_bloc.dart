@@ -37,13 +37,9 @@ abstract class BidirectionalHydratedBloc<E extends BlocEvent,
         super(
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
-        );
-
-  @override
-  @protected
-  void listenToBlocEvents() {
-    onInternalEvent.asyncExpand((S nextState) {
-      return Stream.fromFuture(store.persist(persitenceKey, nextState));
-    }).listen((S nextState) => setState(nextState));
+        ) {
+    subxList.add(onData.listen((S state) {
+      Stream.fromFuture(store.persist(persitenceKey, state));
+    }));
   }
 }
