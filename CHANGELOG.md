@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.12.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.12.0) (2020-12-14)
+
+### Fixes
+
+- Fixed currentState safety within mapEventToState.
+
+### Enhancements
+
+- Allow to skip some BloC's events.
+- added debounceEvent and debounce methods.
+
 ## [0.11.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.11.0) (2020-12-10)
 
 ### Enhancements
