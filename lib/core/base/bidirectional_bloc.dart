@@ -146,28 +146,56 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   ///
   /// For example:
   ///
-  ///      throttleEvent((BlocEvent event) {
+  ///      final throttled = throttleEvent((BlocEvent event) {
   ///          // heavy stuff
   ///      });
-  @protected
-  BlocEventCallback<E> throttleEvent(
-    BlocEventCallback<E> function, {
+  BlocThrottleEventCallback<E> throttleEvent(
+    BlocThrottleEventCallback<E> function, {
     Duration duration = const Duration(milliseconds: 300),
   }) {
-    final throttler = PublishSubject<Tuple2<BlocEventCallback<E>, E>>();
-    throttlers.add(throttler);
+    final throttler = PublishSubject<Tuple2<BlocThrottleEventCallback<E>, E>>();
+    publishers.add(throttler);
 
     subxList.add(
       throttler
           .throttleTime(duration)
-          .listen((Tuple2<BlocEventCallback<E>, E> tuple) {
+          .listen((Tuple2<BlocThrottleEventCallback<E>, E> tuple) {
         tuple.item1(tuple.item2);
       }),
     );
 
     return (E event) {
-      final tuple = Tuple2<BlocEventCallback<E>, E>(function, event);
+      final tuple = Tuple2<BlocThrottleEventCallback<E>, E>(function, event);
       throttler.add(tuple);
+    };
+  }
+
+  ///
+  /// Creates a debounced function that only invokes [function] after a [delay].
+  ///
+  /// For example:
+  ///
+  ///      final debounced = debounce((BlocEvent event) {
+  ///          // heavy stuff
+  ///      });
+  BlocDebounceEventCallback<E> debounceEvent(
+    BlocDebounceEventCallback<E> function, {
+    Duration delay = const Duration(milliseconds: 300),
+  }) {
+    final debouncer = PublishSubject<Tuple2<BlocDebounceEventCallback<E>, E>>();
+    publishers.add(debouncer);
+
+    subxList.add(
+      debouncer
+          .debounceTime(delay)
+          .listen((Tuple2<BlocDebounceEventCallback<E>, E> tuple) {
+        tuple.item1(tuple.item2);
+      }),
+    );
+
+    return (E event) {
+      final tuple = Tuple2<BlocDebounceEventCallback<E>, E>(function, event);
+      debouncer.add(tuple);
     };
   }
 

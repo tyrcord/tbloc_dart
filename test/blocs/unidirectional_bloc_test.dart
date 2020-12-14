@@ -119,7 +119,9 @@ void main() {
       test('should return a throttled function', () async {
         var count = 0;
 
-        final throttled = bloc.putThrottle(() => count++);
+        final throttled = bloc.putThrottle(([Map<dynamic, dynamic> extras]) {
+          count++;
+        });
 
         throttled();
         throttled();
@@ -128,8 +130,29 @@ void main() {
         expect(count, equals(0));
 
         await Future.delayed(
-          const Duration(microseconds: 350),
+          const Duration(milliseconds: 350),
           () => expect(count, equals(1)),
+        );
+      });
+    });
+
+    group('#debounce()', () {
+      test('should return a debounced function', () async {
+        var count = 0;
+
+        final debounced = bloc.putDebounce(([Map<dynamic, dynamic> extras]) {
+          count = extras['count'] as int;
+        });
+
+        debounced({'count': 1});
+        debounced({'count': 2});
+        debounced({'count': 3});
+
+        expect(count, equals(0));
+
+        await Future.delayed(
+          const Duration(milliseconds: 350),
+          () => expect(count, equals(3)),
         );
       });
     });

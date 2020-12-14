@@ -306,7 +306,7 @@ void main() {
       });
     });
 
-    group('#throttle()', () {
+    group('#throttleEvent()', () {
       test('should return a throttled function', () async {
         final throttled = bloc.putThrottleEvent(
           (event) => bloc.addEvent(event),
@@ -325,10 +325,54 @@ void main() {
         ));
 
         await Future.delayed(
-          const Duration(microseconds: 350),
+          const Duration(milliseconds: 150),
           () {
             final state = bloc.currentState;
             expect(state.firstname, equals('baz'));
+          },
+        );
+
+        await Future.delayed(
+          const Duration(milliseconds: 350),
+          () {
+            final state = bloc.currentState;
+            expect(state.firstname, equals('baz'));
+          },
+        );
+      });
+    });
+
+    group('#debounceEvent()', () {
+      test('should return a debounced function', () async {
+        final throttled = bloc.putDebounceEvent(
+          (event) => bloc.addEvent(event),
+        );
+
+        throttled(PeopleBlocEvent.updateInformation(
+          payload: PeopleBlocEventPayload(firstname: 'baz'),
+        ));
+
+        throttled(PeopleBlocEvent.updateInformation(
+          payload: PeopleBlocEventPayload(firstname: 'qux'),
+        ));
+
+        throttled(PeopleBlocEvent.updateInformation(
+          payload: PeopleBlocEventPayload(firstname: 'quz'),
+        ));
+
+        await Future.delayed(
+          const Duration(milliseconds: 150),
+          () {
+            final state = bloc.currentState;
+            expect(state.firstname, equals('foo'));
+          },
+        );
+
+        await Future.delayed(
+          const Duration(milliseconds: 350),
+          () {
+            final state = bloc.currentState;
+            expect(state.firstname, equals('quz'));
           },
         );
       });

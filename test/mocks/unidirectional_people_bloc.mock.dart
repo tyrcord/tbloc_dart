@@ -15,5 +15,9 @@ class UnidirectionalPeopleBloc extends UnidirectionalBloc<PeopleBlocState> {
     setState(state);
   }
 
-  Function putThrottle(Function function) => throttle(function);
+  BlocThrottleCallback putThrottle(BlocThrottleCallback function) =>
+      throttle(function);
+
+  BlocDebounceCallback putDebounce(BlocDebounceCallback function) =>
+      debounce(function);
 }
