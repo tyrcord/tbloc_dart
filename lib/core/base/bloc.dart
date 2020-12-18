@@ -65,8 +65,7 @@ abstract class Bloc<S extends BlocState> {
     this.initialState,
     this.initialStateBuilder,
   }) {
-    blocState = getInitialState();
-    setState(blocState);
+    setState(getInitialState());
   }
 
   ///
