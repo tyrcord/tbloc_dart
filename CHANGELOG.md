@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.12.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.12.1) (2020-12-18)
+
+### Fixes
+
+- Fixed regressions.
+
 ## [0.12.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.12.0) (2020-12-14)
 
 ### Fixes
