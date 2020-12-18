@@ -111,7 +111,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       final innerSubscription = mapEventToState(event)
           .where((S state) => state != null)
           .listen((S nextState) {
-        state = nextState;
+        blocState = nextState;
         streamController.add(nextState);
       });
 
