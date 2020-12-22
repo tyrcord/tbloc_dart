@@ -23,6 +23,7 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   @override
+  // ignore: long-method
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

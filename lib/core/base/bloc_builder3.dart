@@ -52,6 +52,7 @@ class _BlocBuilderWidget3State<S1 extends BlocState, S2 extends BlocState,
   }
 
   @override
+  // ignore: code-metrics
   Widget build(BuildContext context) {
     return StreamBuilder<List<BlocState>>(
       stream: _stream,

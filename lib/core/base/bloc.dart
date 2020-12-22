@@ -116,6 +116,7 @@ abstract class Bloc<S extends BlocState> {
     return _dispatchState;
   }
 
+  // ignore: no-empty-block
   void _dispatchState(S state) {}
 
   @protected

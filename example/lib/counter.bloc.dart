@@ -5,6 +5,7 @@ class CounterBloc
   CounterBloc() : super(initialState: CounterBlocState());
 
   @override
+  // ignore: code-metrics
   Stream<CounterBlocState> mapEventToState(CounterBlocEvent event) async* {
     var counter = currentState.counter;
 

@@ -42,6 +42,7 @@ class BidirectionalPeopleBloc
   }
 
   @override
+  // ignore: no-empty-block
   void handleInternalError(dynamic error) {}
 
   BlocThrottleEventCallback<PeopleBlocEvent> putThrottleEvent(

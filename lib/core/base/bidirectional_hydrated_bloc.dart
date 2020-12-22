@@ -24,6 +24,7 @@ abstract class BidirectionalHydratedBloc<E extends BlocEvent,
   @override
   Function(BlocEvent) get addEvent {
     assert(isBlocHydrated);
+
     return super.addEvent;
   }
 

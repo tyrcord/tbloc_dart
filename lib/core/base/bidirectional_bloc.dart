@@ -55,6 +55,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
     return _addEvent;
   }
 
+  // ignore: no-empty-block
   void _addEvent(BlocEvent event) {}
 
   BidirectionalBloc({
