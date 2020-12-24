@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:tbloc_dart/tbloc_dart.dart';
 
 class CounterBloc
@@ -42,6 +43,19 @@ class CounterBlocState extends BlocState {
   @override
   CounterBlocState copyWith({dynamic error, int counter}) {
     return CounterBlocState(counter: counter ?? this.counter, error: error);
+  }
+
+  @override
+  CounterBlocState clone() {
+    return CounterBlocState(counter: counter, error: error);
+  }
+
+  @override
+  CounterBlocState merge({@required CounterBlocState state}) {
+    return copyWith(
+      counter: state.counter,
+      error: state.error,
+    );
   }
 }
 

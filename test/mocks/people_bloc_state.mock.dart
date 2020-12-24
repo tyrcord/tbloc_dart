@@ -70,4 +70,12 @@ class PeopleBlocState extends HydratedBlocState {
         isMarrying,
         isSingle,
       ];
+
+  @override
+  // ignore: missing_return, no-empty-block
+  PeopleBlocState clone() {}
+
+  @override
+  // ignore: missing_return, no-empty-block
+  PeopleBlocState merge() {}
 }

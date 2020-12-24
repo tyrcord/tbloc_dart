@@ -443,6 +443,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.12-nullsafety.5"
+  tmodel_dart:
+    dependency: "direct main"
+    description:
+      path: "/Users/thibaultzanini/Dev/tyrcord/tmodel_dart/"
+      relative: false
+    source: path
+    version: "0.1.0"
   tuple:
     dependency: "direct main"
     description:

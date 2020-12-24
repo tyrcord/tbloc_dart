@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
+import 'package:tmodel_dart/logic/core/core.dart';
 
-abstract class BlocState extends Equatable {
+abstract class BlocState extends TModel {
   final dynamic error;
   final bool isInitializing;
   final bool isInitialized;
@@ -13,6 +13,4 @@ abstract class BlocState extends Equatable {
     this.error,
   })  : isInitializing = isInitializing ?? false,
         isInitialized = isInitialized ?? false;
-
-  BlocState copyWith();
 }
