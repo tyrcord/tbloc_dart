@@ -38,12 +38,21 @@ class BidirectionalPeopleBloc
       yield currentState.copyWithPayload(
         PeopleBlocEventPayload(firstname: 'multi'),
       );
+    } else if (event.type == PeopleBlocEventPayloadType.errorDelayed) {
+      await Future.delayed(const Duration(milliseconds: 150));
+      log('error delayed will be raised');
+
+      throw 'Error Delayed';
     }
   }
 
   @override
   // ignore: no-empty-block
-  void handleInternalError(dynamic error) {}
+  void handleInternalError(dynamic error) {
+    if (error == 'Error Delayed') {
+      addEvent(PeopleBlocEvent.error());
+    }
+  }
 
   BlocThrottleEventCallback<PeopleBlocEvent> putThrottleEvent(
     BlocThrottleEventCallback<PeopleBlocEvent> function,

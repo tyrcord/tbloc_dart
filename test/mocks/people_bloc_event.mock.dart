@@ -2,6 +2,7 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 
 enum PeopleBlocEventPayloadType {
   updateInformation,
+  errorDelayed,
   married,
   marry,
   error,
@@ -49,4 +50,7 @@ class PeopleBlocEvent
 
   PeopleBlocEvent.updateMultipleInformation()
       : super(type: PeopleBlocEventPayloadType.multiple);
+
+  PeopleBlocEvent.errorDelayed()
+      : super(type: PeopleBlocEventPayloadType.errorDelayed);
 }

@@ -19,6 +19,8 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       PublishSubject<BlocEvent>();
   @protected
   final PublishSubject<E> externalEventController = PublishSubject<E>();
+  @protected
+  StreamSubscription<S> eventSubscriptions;
 
   ///
   /// Must be implemented when a class extends BidirectionalBloc.
@@ -79,7 +81,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   /// Handles BloC events.
   ///
   void _handleEvents() {
-    _transformEvents().listen((S state) {
+    eventSubscriptions = _transformEvents().listen((S state) {
       setState(state);
     });
   }
@@ -95,11 +97,13 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   /// `switchMap` can be used if you want some scenarios to not complete.
   ///
   Stream<S> _transformEvents() {
+    final source = internalEventController.where((_) => !isClosed);
+
     if (shouldProcessEventInOrder()) {
-      return internalEventController.asyncExpand(_handleEvent);
+      return source.asyncExpand(_handleEvent);
     }
 
-    return internalEventController.switchMap(_handleEvent);
+    return source.switchMap(_handleEvent);
   }
 
   ///
@@ -108,9 +112,10 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   Stream<S> _handleEvent(BlocEvent event) {
     if (event is E) {
       externalEventController.sink.add(event);
+
       final streamController = StreamController<S>.broadcast();
       final innerSubscription = mapEventToState(event)
-          .where((S state) => state != null)
+          .where((S state) => state != null && !isClosed)
           .listen((S nextState) {
         blocState = nextState;
         streamController.add(nextState);
@@ -118,8 +123,11 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
 
       innerSubscription.onDone(() => streamController.close());
       innerSubscription.onError((dynamic error, StackTrace stackTrace) {
-        handleInternalError(error);
-        errorController.sink.add(transformError(error, stackTrace));
+        if (!isClosed) {
+          handleInternalError(error);
+          errorController.sink.add(transformError(error, stackTrace));
+        }
+
         streamController.close();
       });
 
@@ -235,6 +243,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       super.close();
       internalEventController.close();
       externalEventController.close();
+      eventSubscriptions.cancel();
     }
   }
 }

@@ -16,17 +16,23 @@ abstract class Bloc<S extends BlocState> {
   @protected
   final BlocStateBuilder<S> initialStateBuilder;
   @protected
-  final S initialState;
-  @protected
-  final SubxList subxList = SubxList();
+  final List<PublishSubject> publishers = [];
   @protected
   bool isInitializing = false;
   @protected
-  bool get isInitialized => _isInitialized;
+  final subxList = SubxList();
   @protected
-  final List<PublishSubject> publishers = [];
+  final subxMap = SubxMap();
+  @protected
+  final S initialState;
   @protected
   bool closed = false;
+  @protected
+  S blocState;
+
+  @protected
+  bool get isInitialized => _isInitialized;
+
   @protected
   set isInitialized(bool isInitialized) {
     if (isInitialized) {
@@ -37,9 +43,6 @@ abstract class Bloc<S extends BlocState> {
   }
 
   bool _isInitialized = false;
-
-  @protected
-  S blocState;
 
   ///
   /// Whether the BloC is closed for dispatching more events.
@@ -195,6 +198,7 @@ abstract class Bloc<S extends BlocState> {
       stateController.close();
       errorController.close();
       subxList.cancelAll();
+      subxMap.cancelAll();
     }
   }
 }

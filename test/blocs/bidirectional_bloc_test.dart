@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 @Timeout(Duration(seconds: 5))
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tbloc_dart/core/base/base.dart';
@@ -286,23 +288,50 @@ void main() {
     });
 
     group('#close()', () {
-      test('should close bloC streams', () {
+      test('should close bloC onData stream and block new events', () async {
         expect(
-          bloc.onData.skip(1).map((state) => state.age),
+          bloc.onData.map((state) => state.age),
           neverEmits(12),
         );
 
-        bloc.close();
-
+        // micro task async
         bloc.addEvent(
           PeopleBlocEvent.updateInformation(
-            payload: PeopleBlocEventPayload(
-              age: 12,
-            ),
+            payload: PeopleBlocEventPayload(age: 12),
+          ),
+        );
+
+        // sync
+        bloc.close();
+
+        // micro task async
+        bloc.addEvent(
+          PeopleBlocEvent.updateInformation(
+            payload: PeopleBlocEventPayload(age: 12),
           ),
         );
 
         expect(bloc.isClosed, equals(true));
+      });
+
+      test('should silent bloC errors', () async {
+        expect(
+          bloc.onError.map((state) => 1),
+          neverEmits(1),
+        );
+
+        // micro task async
+        bloc.addEvent(PeopleBlocEvent.errorDelayed());
+
+        // wait for event to be handled
+        await Future.delayed(const Duration(milliseconds: 50));
+
+        bloc.close();
+
+        expect(bloc.isClosed, equals(true));
+
+        // wait for the delayed error to be raised
+        await Future.delayed(const Duration(milliseconds: 150));
       });
     });
 
