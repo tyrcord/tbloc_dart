@@ -29,13 +29,11 @@ abstract class BidirectionalHydratedBloc<E extends BlocEvent,
   }
 
   BidirectionalHydratedBloc({
-    @required this.store,
-    @required this.persitenceKey,
-    S initialState,
-    BlocStateBuilder<S> initialStateBuilder,
-  })  : assert(store != null),
-        assert(persitenceKey != null),
-        super(
+    required this.store,
+    required this.persitenceKey,
+    S? initialState,
+    BlocStateBuilder<S>? initialStateBuilder,
+  }) : super(
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
         ) {

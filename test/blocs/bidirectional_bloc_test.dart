@@ -11,7 +11,7 @@ import '../mocks/people_bloc_state.mock.dart';
 
 void main() {
   group('BidirectionalBloc', () {
-    BidirectionalPeopleBloc bloc;
+    late BidirectionalPeopleBloc bloc;
 
     final defaultState = PeopleBlocState(
       age: 42,

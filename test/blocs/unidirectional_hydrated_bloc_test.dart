@@ -7,7 +7,7 @@ import '../mocks/unidirectional_hydrated_people_bloc.mock.dart';
 
 void main() {
   group('UnidirectionalHydratedPeopleBloc', () {
-    UnidirectionalHydratedPeopleBloc bloc;
+    late UnidirectionalHydratedPeopleBloc bloc;
 
     final defaultState = PeopleBlocState(
       age: 42,

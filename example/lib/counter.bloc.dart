@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:tbloc_dart/tbloc_dart.dart';
 
 class CounterBloc
@@ -38,10 +37,10 @@ class CounterBlocState extends BlocState {
   }) : super(error: error);
 
   @override
-  List<Object> get props => [counter];
+  List<dynamic> get props => [counter, error];
 
   @override
-  CounterBlocState copyWith({dynamic error, int counter}) {
+  CounterBlocState copyWith({dynamic error, int? counter}) {
     return CounterBlocState(counter: counter ?? this.counter, error: error);
   }
 
@@ -51,9 +50,9 @@ class CounterBlocState extends BlocState {
   }
 
   @override
-  CounterBlocState merge({@required CounterBlocState state}) {
+  CounterBlocState merge({CounterBlocState? state}) {
     return copyWith(
-      counter: state.counter,
+      counter: state!.counter,
       error: state.error,
     );
   }
@@ -68,7 +67,7 @@ enum CounterBlocEventType {
 }
 
 class CounterBlocEvent extends BlocEvent<CounterBlocEventType, dynamic> {
-  const CounterBlocEvent({CounterBlocEventType type}) : super(type: type);
+  const CounterBlocEvent({CounterBlocEventType? type}) : super(type: type);
 
   CounterBlocEvent.increment() : this(type: CounterBlocEventType.increment);
 

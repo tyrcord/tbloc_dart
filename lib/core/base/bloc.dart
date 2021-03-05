@@ -14,7 +14,7 @@ abstract class Bloc<S extends BlocState> {
   @protected
   final PublishSubject<BlocError> errorController = PublishSubject<BlocError>();
   @protected
-  final BlocStateBuilder<S> initialStateBuilder;
+  final BlocStateBuilder<S>? initialStateBuilder;
   @protected
   final List<PublishSubject> publishers = [];
   @protected
@@ -24,11 +24,11 @@ abstract class Bloc<S extends BlocState> {
   @protected
   final subxMap = SubxMap();
   @protected
-  final S initialState;
+  final S? initialState;
   @protected
   bool closed = false;
   @protected
-  S blocState;
+  late S blocState;
 
   @protected
   bool get isInitialized => _isInitialized;
@@ -77,11 +77,11 @@ abstract class Bloc<S extends BlocState> {
   @protected
   S getInitialState() {
     if (initialState != null) {
-      return initialState;
+      return initialState!;
     }
 
     if (initialStateBuilder != null) {
-      return initialStateBuilder();
+      return initialStateBuilder!();
     }
 
     return initState();
@@ -101,10 +101,8 @@ abstract class Bloc<S extends BlocState> {
   ///
   @protected
   void setState(S nextState) {
-    if (nextState != null) {
-      blocState = nextState;
-      dispatchState(nextState);
-    }
+    blocState = nextState;
+    dispatchState(nextState);
   }
 
   ///
@@ -140,19 +138,20 @@ abstract class Bloc<S extends BlocState> {
     BlocThrottleCallback function, {
     Duration duration = const Duration(milliseconds: 300),
   }) {
-    final throttler = PublishSubject<Tuple2<Function, Map<dynamic, dynamic>>>();
+    final throttler =
+        PublishSubject<Tuple2<Function, Map<dynamic, dynamic>?>>();
     publishers.add(throttler);
 
     subxList.add(
       throttler.throttleTime(duration).listen(
-        (Tuple2<Function, Map<dynamic, dynamic>> tuple) {
+        (Tuple2<Function, Map<dynamic, dynamic>?> tuple) {
           tuple.item1(tuple.item2);
         },
       ),
     );
 
-    return ([Map<dynamic, dynamic> extras]) {
-      final tuple = Tuple2<Function, Map<dynamic, dynamic>>(function, extras);
+    return ([Map<dynamic, dynamic>? extras]) {
+      final tuple = Tuple2<Function, Map<dynamic, dynamic>?>(function, extras);
       throttler.add(tuple);
     };
   }
@@ -169,19 +168,20 @@ abstract class Bloc<S extends BlocState> {
     BlocDebounceCallback function, {
     Duration delay = const Duration(milliseconds: 300),
   }) {
-    final debouncer = PublishSubject<Tuple2<Function, Map<dynamic, dynamic>>>();
+    final debouncer =
+        PublishSubject<Tuple2<Function, Map<dynamic, dynamic>?>>();
     publishers.add(debouncer);
 
     subxList.add(
       debouncer.debounceTime(delay).listen(
-        (Tuple2<Function, Map<dynamic, dynamic>> tuple) {
+        (Tuple2<Function, Map<dynamic, dynamic>?> tuple) {
           tuple.item1(tuple.item2);
         },
       ),
     );
 
-    return ([Map<dynamic, dynamic> extras]) {
-      final tuple = Tuple2<Function, Map<dynamic, dynamic>>(function, extras);
+    return ([Map<dynamic, dynamic>? extras]) {
+      final tuple = Tuple2<Function, Map<dynamic, dynamic>?>(function, extras);
       debouncer.add(tuple);
     };
   }

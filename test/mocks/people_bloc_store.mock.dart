@@ -8,7 +8,7 @@ class PeopleBlocStore implements BlocStore<PeopleBlocState> {
   Future<void> clear() async => _storage.clear();
 
   @override
-  Future<PeopleBlocState> persist(String key, PeopleBlocState value) async {
+  Future<PeopleBlocState?> persist(String key, PeopleBlocState value) async {
     if (!_storage.containsKey(key)) {
       return _storage.putIfAbsent(key, () => value);
     }
@@ -17,8 +17,8 @@ class PeopleBlocStore implements BlocStore<PeopleBlocState> {
   }
 
   @override
-  Future<PeopleBlocState> retrieve(String key) async => _storage[key];
+  Future<PeopleBlocState?> retrieve(String key) async => _storage[key];
 
   @override
-  Future<PeopleBlocState> delete(String key) async => _storage.remove(key);
+  Future<PeopleBlocState?> delete(String key) async => _storage.remove(key);
 }

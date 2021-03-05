@@ -11,12 +11,10 @@ class MultiBlocProvider extends StatelessWidget {
   final Widget child;
 
   const MultiBlocProvider({
-    Key key,
-    @required this.blocProviders,
-    @required this.child,
-  })  : assert(blocProviders != null),
-        assert(child != null),
-        super(key: key);
+    Key? key,
+    required this.blocProviders,
+    required this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

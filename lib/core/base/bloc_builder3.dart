@@ -14,16 +14,12 @@ class BlocBuilderWidget3<S1 extends BlocState, S2 extends BlocState,
   final Bloc<S3> bloc3;
 
   const BlocBuilderWidget3({
-    Key key,
-    @required this.builder,
-    @required this.bloc1,
-    @required this.bloc2,
-    @required this.bloc3,
-  })  : assert(builder != null),
-        assert(bloc1 != null),
-        assert(bloc2 != null),
-        assert(bloc3 != null),
-        super(key: key);
+    Key? key,
+    required this.builder,
+    required this.bloc1,
+    required this.bloc2,
+    required this.bloc3,
+  }) : super(key: key);
 
   @override
   _BlocBuilderWidget3State<S1, S2, S3> createState() =>
@@ -32,7 +28,7 @@ class BlocBuilderWidget3<S1 extends BlocState, S2 extends BlocState,
 
 class _BlocBuilderWidget3State<S1 extends BlocState, S2 extends BlocState,
     S3 extends BlocState> extends State<BlocBuilderWidget3<S1, S2, S3>> {
-  Stream<List<BlocState>> _stream;
+  late Stream<List<BlocState>>? _stream;
 
   @override
   void initState() {

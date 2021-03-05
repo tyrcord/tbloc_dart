@@ -9,5 +9,5 @@ typedef BlocThrottleCallback<E extends BlocEvent> = void Function([
 typedef BlocDebounceEventCallback<E extends BlocEvent> = void Function(E event);
 
 typedef BlocDebounceCallback<E extends BlocEvent> = void Function([
-  Map<dynamic, dynamic> extras,
+  Map<dynamic, dynamic>? extras,
 ]);

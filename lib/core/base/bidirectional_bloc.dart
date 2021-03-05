@@ -20,7 +20,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   @protected
   final PublishSubject<E> externalEventController = PublishSubject<E>();
   @protected
-  StreamSubscription<S> eventSubscriptions;
+  late StreamSubscription<S> eventSubscriptions;
 
   ///
   /// Must be implemented when a class extends BidirectionalBloc.
@@ -61,8 +61,8 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   void _addEvent(BlocEvent event) {}
 
   BidirectionalBloc({
-    S initialState,
-    BlocStateBuilder<S> initialStateBuilder,
+    S? initialState,
+    BlocStateBuilder<S>? initialStateBuilder,
   }) : super(
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
@@ -115,7 +115,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
 
       final streamController = StreamController<S>.broadcast();
       final innerSubscription = mapEventToState(event)
-          .where((S state) => state != null && !isClosed)
+          .where((S state) => !isClosed)
           .listen((S nextState) {
         blocState = nextState;
         streamController.add(nextState);
@@ -213,7 +213,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   /// TODO: Should have its own package.
   ///
   @protected
-  void log(String message, {dynamic error, StackTrace stackTrace}) {
+  void log(String message, {dynamic error, StackTrace? stackTrace}) {
     final logger = Logger(
       printer: PrettyPrinter(
         methodCount: 4,

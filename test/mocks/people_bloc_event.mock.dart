@@ -10,11 +10,11 @@ enum PeopleBlocEventPayloadType {
 }
 
 class PeopleBlocEventPayload {
-  final String firstname;
-  final String lastname;
-  final bool isSingle;
-  final bool isMarrying;
-  final int age;
+  final String? firstname;
+  final String? lastname;
+  final bool? isSingle;
+  final bool? isMarrying;
+  final int? age;
 
   PeopleBlocEventPayload({
     this.firstname,
@@ -33,13 +33,13 @@ class PeopleBlocEvent
           error: 'error',
         );
 
-  PeopleBlocEvent.married({PeopleBlocEventPayload payload})
+  PeopleBlocEvent.married({PeopleBlocEventPayload? payload})
       : super(
           type: PeopleBlocEventPayloadType.married,
           payload: payload,
         );
 
-  PeopleBlocEvent.updateInformation({PeopleBlocEventPayload payload})
+  PeopleBlocEvent.updateInformation({PeopleBlocEventPayload? payload})
       : super(
           type: PeopleBlocEventPayloadType.updateInformation,
           payload: payload,

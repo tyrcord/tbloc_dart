@@ -1,11 +1,11 @@
 class BlocError {
   final dynamic source;
-  final String message;
   final StackTrace stackTrace;
+  final String? message;
 
   BlocError({
+    required this.source,
+    required this.stackTrace,
     this.message,
-    this.source,
-    this.stackTrace,
   });
 }

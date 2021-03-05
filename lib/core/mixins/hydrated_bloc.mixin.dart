@@ -4,9 +4,9 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 
 mixin HydratedBlocMixin<S extends HydratedBlocState> on Bloc<S> {
   @protected
-  BlocStore<S> store;
+  late BlocStore<S> store;
   @protected
-  String persitenceKey;
+  late String persitenceKey;
   @protected
   bool isBlocHydrated = false;
 

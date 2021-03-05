@@ -6,8 +6,8 @@ import 'people_bloc_state.mock.dart';
 class BidirectionalPeopleBloc
     extends BidirectionalBloc<PeopleBlocEvent, PeopleBlocState> {
   BidirectionalPeopleBloc({
-    PeopleBlocState initialState,
-    BlocStateBuilder<PeopleBlocState> initialStateBuilder,
+    PeopleBlocState? initialState,
+    BlocStateBuilder<PeopleBlocState>? initialStateBuilder,
   }) : super(
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
@@ -16,9 +16,9 @@ class BidirectionalPeopleBloc
   @override
   Stream<PeopleBlocState> mapEventToState(PeopleBlocEvent event) async* {
     if (event.type == PeopleBlocEventPayloadType.error) {
-      throw event.error;
+      throw event.error!;
     } else if (event.type == PeopleBlocEventPayloadType.updateInformation) {
-      yield currentState.copyWithPayload(event.payload);
+      yield currentState.copyWithPayload(event.payload!);
     } else if (event.type == PeopleBlocEventPayloadType.marry) {
       yield currentState.copyWith(isMarrying: true);
       await Future.delayed(Duration(milliseconds: 300));
@@ -32,8 +32,6 @@ class BidirectionalPeopleBloc
       );
     } else if (event.type == PeopleBlocEventPayloadType.multiple) {
       yield currentState.copyWithPayload(PeopleBlocEventPayload(age: 1));
-
-      yield null;
 
       yield currentState.copyWithPayload(
         PeopleBlocEventPayload(firstname: 'multi'),

@@ -6,17 +6,17 @@ import 'people_bloc_event.mock.dart';
 
 @immutable
 class PeopleBlocState extends HydratedBlocState {
-  final String firstname;
-  final String lastname;
-  final int age;
-  final bool isMarrying;
+  final String? firstname;
+  final String? lastname;
+  final int? age;
+  final bool? isMarrying;
   final bool isSingle;
 
   PeopleBlocState({
     this.firstname,
     this.lastname,
     this.age,
-    bool hydrated,
+    bool? hydrated,
     dynamic exception,
     this.isMarrying,
     this.isSingle = true,
@@ -34,13 +34,13 @@ class PeopleBlocState extends HydratedBlocState {
 
   @override
   PeopleBlocState copyWith({
-    String firstname,
-    String lastname,
-    int age,
-    bool hydrated,
+    String? firstname,
+    String? lastname,
+    int? age,
+    bool? hydrated,
     dynamic exception,
-    bool isSingle,
-    bool isMarrying,
+    bool? isSingle,
+    bool? isMarrying,
   }) {
     return PeopleBlocState(
       firstname: firstname ?? this.firstname,
@@ -63,7 +63,7 @@ class PeopleBlocState extends HydratedBlocState {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         firstname,
         lastname,
         age,
@@ -73,9 +73,9 @@ class PeopleBlocState extends HydratedBlocState {
 
   @override
   // ignore: missing_return, no-empty-block
-  PeopleBlocState clone() {}
+  PeopleBlocState? clone() {}
 
   @override
   // ignore: missing_return, no-empty-block
-  PeopleBlocState merge() {}
+  PeopleBlocState? merge() {}
 }

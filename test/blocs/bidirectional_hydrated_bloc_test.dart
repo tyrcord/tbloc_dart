@@ -8,7 +8,7 @@ import '../mocks/people_bloc_state.mock.dart';
 
 void main() {
   group('BidirectionalHydratedPeopleBloc', () {
-    BidirectionalHydratedPeopleBloc bloc;
+    late BidirectionalHydratedPeopleBloc bloc;
 
     final defaultState = PeopleBlocState(
       age: 42,

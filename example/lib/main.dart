@@ -20,7 +20,7 @@ class MyHomePage extends StatelessWidget {
   final String title;
   final bloc = CounterBloc();
 
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   // ignore: long-method

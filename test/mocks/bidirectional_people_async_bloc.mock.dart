@@ -7,8 +7,8 @@ import 'people_bloc_state.mock.dart';
 
 class BidirectionalPeopleAsyncBloc extends BidirectionalPeopleBloc {
   BidirectionalPeopleAsyncBloc({
-    PeopleBlocState initialState,
-    BlocStateBuilder<PeopleBlocState> initialStateBuilder,
+    PeopleBlocState? initialState,
+    BlocStateBuilder<PeopleBlocState>? initialStateBuilder,
   }) : super(
           initialState: initialState,
           initialStateBuilder: initialStateBuilder,
@@ -23,7 +23,7 @@ class BidirectionalPeopleAsyncBloc extends BidirectionalPeopleBloc {
     if (event.type == PeopleBlocEventPayloadType.updateInformation) {
       // simulate DB writing...
       await Future.delayed(const Duration(milliseconds: 50));
-      yield currentState.copyWithPayload(event.payload);
+      yield currentState.copyWithPayload(event.payload!);
     } else {
       yield* super.mapEventToState(event);
     }

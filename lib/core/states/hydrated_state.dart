@@ -4,10 +4,10 @@ abstract class HydratedBlocState extends BlocState {
   final bool hydrated;
 
   const HydratedBlocState({
-    bool isInitializing,
-    bool isInitialized,
-    bool hydrated,
-    dynamic error,
+    bool? isInitializing,
+    bool? isInitialized,
+    bool? hydrated,
+    dynamic? error,
   })  : hydrated = hydrated ?? false,
         super(
           isInitializing: isInitializing,
@@ -16,5 +16,5 @@ abstract class HydratedBlocState extends BlocState {
         );
 
   @override
-  BlocState copyWith({bool hydrated});
+  BlocState copyWith({bool? hydrated});
 }

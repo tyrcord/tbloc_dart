@@ -7,7 +7,7 @@ import '../mocks/unidirectional_people_bloc.mock.dart';
 
 void main() {
   group('UnidirectionalBloc', () {
-    UnidirectionalPeopleBloc bloc;
+    late UnidirectionalPeopleBloc bloc;
 
     final defaultState = PeopleBlocState(
       age: 42,
@@ -119,7 +119,7 @@ void main() {
       test('should return a throttled function', () async {
         var count = 0;
 
-        final throttled = bloc.putThrottle(([Map<dynamic, dynamic> extras]) {
+        final throttled = bloc.putThrottle(([Map<dynamic, dynamic>? extras]) {
           count++;
         });
 
@@ -138,10 +138,11 @@ void main() {
 
     group('#debounce()', () {
       test('should return a debounced function', () async {
-        var count = 0;
+        int? count = 0;
 
-        final debounced = bloc.putDebounce(([Map<dynamic, dynamic> extras]) {
-          count = extras['count'] as int;
+        final void Function([Map<dynamic, dynamic>]) debounced =
+            bloc.putDebounce(([Map<dynamic, dynamic>? extras]) {
+          count = extras!['count'] as int?;
         });
 
         debounced({'count': 1});
