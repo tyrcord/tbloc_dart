@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.14.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0) (2020-03-05)
+## [0.14.0-nullsafety.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0-nullsafety.0) (2020-03-05)
 
 ### Enhancements
 
