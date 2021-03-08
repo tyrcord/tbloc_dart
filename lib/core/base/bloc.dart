@@ -121,7 +121,7 @@ abstract class Bloc<S extends BlocState> {
   void _dispatchState(S state) {}
 
   @protected
-  BlocError transformError(dynamic error, StackTrace stackTrace) {
+  BlocError? transformError(dynamic error, StackTrace stackTrace) {
     return BlocError(source: error, stackTrace: stackTrace);
   }
 
