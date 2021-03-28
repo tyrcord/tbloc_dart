@@ -1,5 +1,6 @@
 name: tbloc_example
 version: 1.0.0
+publish_to: none
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
