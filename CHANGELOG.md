@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.14.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0-nullsafety.1) (2020-03-28)
+
+### Enhancements
+
+- Stable nullsafety
+
 ## [0.14.0-nullsafety.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0-nullsafety.1) (2020-03-08)
 
 ### Fixes
