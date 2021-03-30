@@ -1,10 +1,16 @@
 # Changelog
 
+## [0.14.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.1) (2020-03-30)
+
+### Enhancements
+
+- Allow to override the default behavior of the close method.
+
 ## [0.14.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0) (2020-03-28)
 
 ### Enhancements
 
-- Stable nullsafety
+- Stable nullsafety.
 
 ## [0.14.0-nullsafety.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0-nullsafety.1) (2020-03-08)
 
