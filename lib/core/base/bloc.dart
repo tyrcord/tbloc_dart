@@ -192,7 +192,7 @@ abstract class Bloc<S extends BlocState> {
   ///
   @mustCallSuper
   void close() {
-    if (!closed) {
+    if (!closed && canClose()) {
       closed = true;
       publishers.forEach((PublishSubject publisher) => publisher.close());
       stateController.close();
@@ -201,4 +201,9 @@ abstract class Bloc<S extends BlocState> {
       subxMap.cancelAll();
     }
   }
+
+  ///
+  /// Allow to override the close method.
+  ///
+  bool canClose() => true;
 }

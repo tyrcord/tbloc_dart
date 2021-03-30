@@ -243,8 +243,9 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
   @override
   @mustCallSuper
   void close() {
-    if (!closed) {
+    if (!closed && canClose()) {
       super.close();
+
       internalEventController.close();
       externalEventController.close();
       eventSubscriptions.cancel();

@@ -6,6 +6,7 @@ import 'package:tbloc_dart/core/base/base.dart';
 
 import '../mocks/bidirectional_people_async_bloc.mock.dart';
 import '../mocks/bidirectional_people_bloc.mock.dart';
+import '../mocks/bidirectional_people_bloc2.mock.dart';
 import '../mocks/people_bloc_event.mock.dart';
 import '../mocks/people_bloc_state.mock.dart';
 
@@ -405,6 +406,34 @@ void main() {
           },
         );
       });
+    });
+
+    group('#canClose()', () {
+      test(
+        'should allow to override the default behavior of the close method',
+        () async {
+          bloc = BidirectionalPeopleBloc2(initialState: defaultState);
+
+          bloc.close();
+
+          // micro task async
+          bloc.addEvent(
+            PeopleBlocEvent.updateInformation(
+              payload: PeopleBlocEventPayload(age: 12),
+            ),
+          );
+
+          await Future.delayed(
+            const Duration(milliseconds: 0),
+            () {
+              final state = bloc.currentState;
+              expect(state.age, equals(12));
+            },
+          );
+
+          expect(bloc.isClosed, equals(false));
+        },
+      );
     });
   });
 }
