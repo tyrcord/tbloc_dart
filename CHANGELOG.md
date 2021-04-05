@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.15.0-beta.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.15.0-beta.0) (2020-04-05)
+
+### Features
+
+- `buildWhen`: Allow to only re-build a widget when a certain condition is satisfied.
+
 ## [0.14.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.1) (2020-03-30)
 
 ### Enhancements
