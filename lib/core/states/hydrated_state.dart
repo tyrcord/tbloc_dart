@@ -1,19 +1,18 @@
 import 'bloc_state.dart';
 
 abstract class HydratedBlocState extends BlocState {
+  @override
+  final bool isInitializing;
+  @override
+  final bool isInitialized;
   final bool hydrated;
 
   const HydratedBlocState({
-    bool? isInitializing,
-    bool? isInitialized,
-    bool? hydrated,
+    this.isInitializing = false,
+    this.isInitialized = false,
+    this.hydrated = false,
     dynamic? error,
-  })  : hydrated = hydrated ?? false,
-        super(
-          isInitializing: isInitializing,
-          isInitialized: isInitialized,
-          error: error,
-        );
+  }) : super(error: error);
 
   @override
   BlocState copyWith({bool? hydrated});
