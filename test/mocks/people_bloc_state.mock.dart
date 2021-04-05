@@ -8,18 +8,20 @@ import 'people_bloc_event.mock.dart';
 class PeopleBlocState extends HydratedBlocState {
   final String? firstname;
   final String? lastname;
-  final int? age;
   final bool? isMarrying;
   final bool isSingle;
+  @override
+  final bool hydrated;
+  final int? age;
 
   PeopleBlocState({
+    this.hydrated = false,
+    this.isSingle = true,
+    dynamic exception,
+    this.isMarrying,
     this.firstname,
     this.lastname,
     this.age,
-    bool? hydrated,
-    dynamic exception,
-    this.isMarrying,
-    this.isSingle = true,
   }) : super(hydrated: hydrated, error: exception);
 
   PeopleBlocState copyWithPayload(PeopleBlocEventPayload payload) {
