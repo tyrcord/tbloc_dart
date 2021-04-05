@@ -5,7 +5,8 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 ///
 /// Handles building a widget when BloC's state changes.
 ///
-class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
+class BlocBuilderWidget<S extends BlocState> extends StatefulWidget {
+  final bool Function(S previous, S next)? buildWhen;
   final BlocBuilder<S> builder;
   final Bloc<S> bloc;
 
@@ -13,18 +14,54 @@ class BlocBuilderWidget<S extends BlocState> extends StatelessWidget {
     Key? key,
     required this.builder,
     required this.bloc,
+    this.buildWhen,
   }) : super(key: key);
+
+  @override
+  _BlocBuilderWidgetState<S> createState() {
+    return _BlocBuilderWidgetState<S>();
+  }
+}
+
+class _BlocBuilderWidgetState<S extends BlocState>
+    extends State<BlocBuilderWidget<S>> {
+  late Stream<S> _stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _buildStream();
+  }
+
+  @override
+  void didUpdateWidget(BlocBuilderWidget<S> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.bloc != widget.bloc ||
+        oldWidget.buildWhen != widget.buildWhen) {
+      _buildStream();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<S>(
-      stream: bloc.onData,
+      initialData: widget.bloc.currentState,
+      stream: _stream,
       builder: (
         BuildContext context,
         AsyncSnapshot<S> snapshot,
       ) {
-        return builder(context, snapshot.data ?? bloc.currentState);
+        return widget.builder(context, snapshot.data!);
       },
     );
+  }
+
+  void _buildStream() {
+    _stream = widget.buildWhen == null
+        ? widget.bloc.onData
+        : widget.bloc.onData.distinct((S previous, S next) {
+            return !widget.buildWhen!(previous, next);
+          });
   }
 }

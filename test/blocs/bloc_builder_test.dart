@@ -1,0 +1,99 @@
+import 'dart:developer';
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/material.dart';
+
+import 'package:tbloc_dart/tbloc_dart.dart';
+
+import '../mocks/bidirectional_people_bloc.mock.dart';
+import '../mocks/people_bloc_event.mock.dart';
+import '../mocks/people_bloc_state.mock.dart';
+
+Widget _buildApp(Widget child) {
+  return MaterialApp(
+    home: Scaffold(
+      body: Center(child: child),
+    ),
+  );
+}
+
+void main() {
+  group('BlocBuilder', () {
+    late BidirectionalPeopleBloc bloc;
+
+    final defaultState = PeopleBlocState(
+      age: 42,
+      firstname: 'foo',
+      lastname: 'bar',
+    );
+
+    setUp(() {
+      bloc = BidirectionalPeopleBloc(initialState: defaultState);
+    });
+
+    tearDown(() {
+      bloc.close();
+    });
+
+    group('#filter', () {
+      testWidgets(
+        'Should only re-build the widget when the predicate is equal to true',
+        (WidgetTester tester) async {
+          var buildWhenCalled = false;
+
+          await tester.pumpWidget(_buildApp(BlocBuilderWidget(
+            bloc: bloc,
+            buildWhen: (PeopleBlocState previous, PeopleBlocState next) {
+              buildWhenCalled = true;
+              return next.age! > 20;
+            },
+            builder: (_, PeopleBlocState state) {
+              return Text(state.age.toString());
+            },
+          )));
+
+          var textFinder = find.text('42');
+          expect(textFinder, findsOneWidget);
+
+          bloc.addEvent(
+            PeopleBlocEvent.updateInformation(
+              payload: PeopleBlocEventPayload(age: 20),
+            ),
+          );
+
+          var state;
+
+          await tester.runAsync(() async {
+            state = await bloc.onData.skip(1).first;
+          });
+
+          expect(state.age, equals(20));
+
+          await tester.pumpAndSettle();
+
+          textFinder = find.text('20');
+
+          expect(textFinder, findsNothing);
+          expect(buildWhenCalled, isTrue);
+
+          bloc.addEvent(
+            PeopleBlocEvent.updateInformation(
+              payload: PeopleBlocEventPayload(age: 22),
+            ),
+          );
+
+          await tester.runAsync(() async {
+            state = await bloc.onData.skip(1).first;
+          });
+
+          expect(state.age, equals(22));
+
+          await tester.pumpAndSettle();
+
+          textFinder = find.text('22');
+          expect(textFinder, findsOneWidget);
+        },
+      );
+    });
+  });
+}
