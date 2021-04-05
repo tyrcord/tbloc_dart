@@ -51,7 +51,7 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
     if (!isClosed) {
       return internalEventController.sink.add;
     } else if (kDebugMode) {
-      log('[$runtimeType]: try to dispatchEvent on disposed bloc');
+      log('[$runtimeType]: try to dispatchEvent on a disposed bloc');
     }
 
     return _addEvent;
