@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.15.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.15.0) (2020-05-16)
+
+### Enhancements
+
+- Minor improvements.
+
 ## [0.15.0-beta.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.15.0-beta.0) (2020-04-05)
 
 ### Features
