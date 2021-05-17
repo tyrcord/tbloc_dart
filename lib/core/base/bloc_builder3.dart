@@ -7,11 +7,16 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 /// Handles building a widget when three BloC states change.
 ///
 class BlocBuilderWidget3<S1 extends BlocState, S2 extends BlocState,
-    S3 extends BlocState> extends StatefulWidget {
+    S3 extends BlocState> extends StatefulWidget implements IBlocBuilder {
   final BlocBuilder3<S1, S2, S3> builder;
   final Bloc<S1> bloc1;
   final Bloc<S2> bloc2;
   final Bloc<S3> bloc3;
+
+  @override
+  final WidgetBuilder? loadingBuilder;
+  @override
+  final bool waitForData;
 
   const BlocBuilderWidget3({
     Key? key,
@@ -19,6 +24,8 @@ class BlocBuilderWidget3<S1 extends BlocState, S2 extends BlocState,
     required this.bloc1,
     required this.bloc2,
     required this.bloc3,
+    this.waitForData = false,
+    this.loadingBuilder,
   }) : super(key: key);
 
   @override
@@ -27,7 +34,8 @@ class BlocBuilderWidget3<S1 extends BlocState, S2 extends BlocState,
 }
 
 class _BlocBuilderWidget3State<S1 extends BlocState, S2 extends BlocState,
-    S3 extends BlocState> extends State<BlocBuilderWidget3<S1, S2, S3>> {
+        S3 extends BlocState> extends State<BlocBuilderWidget3<S1, S2, S3>>
+    with BlocBuilderMixin {
   late Stream<List<BlocState>>? _stream;
 
   @override
@@ -56,6 +64,12 @@ class _BlocBuilderWidget3State<S1 extends BlocState, S2 extends BlocState,
         BuildContext context,
         AsyncSnapshot<List<BlocState>> snapshot,
       ) {
+        final loading = buildLoadingWidgetIfNeeded(context, snapshot, widget);
+
+        if (loading != null) {
+          return loading;
+        }
+
         final data = snapshot.data;
         final state1 = data != null ? data[0] as S1 : null;
         final state2 = data != null ? data[1] as S2 : null;

@@ -7,16 +7,23 @@ import 'package:tbloc_dart/tbloc_dart.dart';
 /// Handles building a widget when two BloC states change.
 ///
 class BlocBuilderWidget2<S1 extends BlocState, S2 extends BlocState>
-    extends StatefulWidget {
+    extends StatefulWidget implements IBlocBuilder {
   final BlocBuilder2<S1, S2> builder;
   final Bloc<S1> bloc1;
   final Bloc<S2> bloc2;
+
+  @override
+  final WidgetBuilder? loadingBuilder;
+  @override
+  final bool waitForData;
 
   const BlocBuilderWidget2({
     Key? key,
     required this.builder,
     required this.bloc1,
     required this.bloc2,
+    this.waitForData = false,
+    this.loadingBuilder,
   }) : super(key: key);
 
   @override
@@ -25,7 +32,7 @@ class BlocBuilderWidget2<S1 extends BlocState, S2 extends BlocState>
 }
 
 class _BlocBuilderWidget2State<S1 extends BlocState, S2 extends BlocState>
-    extends State<BlocBuilderWidget2<S1, S2>> {
+    extends State<BlocBuilderWidget2<S1, S2>> with BlocBuilderMixin {
   late Stream<List<BlocState>> _stream;
 
   @override
@@ -51,6 +58,12 @@ class _BlocBuilderWidget2State<S1 extends BlocState, S2 extends BlocState>
         BuildContext context,
         AsyncSnapshot<List<BlocState>> snapshot,
       ) {
+        final loading = buildLoadingWidgetIfNeeded(context, snapshot, widget);
+
+        if (loading != null) {
+          return loading;
+        }
+
         final data = snapshot.data;
         final state1 = data != null ? data[0] as S1 : null;
         final state2 = data != null ? data[1] as S2 : null;
