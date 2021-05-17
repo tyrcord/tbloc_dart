@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.16.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.16.0) (2020-05-17)
+
+### Features
+
+- Added a way for BlocBuilder widgets to wait for data. (beta)
+
 ## [0.15.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.15.0) (2020-05-16)
 
 ### Enhancements
