@@ -1,48 +1,58 @@
 # Changelog
 
-## [0.16.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.16.1) (2020-06-28)
-
-### Enhancements
-
-- Update dependencies.
-
-## [0.16.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.16.0) (2020-05-17)
-
-### Features
-
-- Added a way for BlocBuilder widgets to wait for data. (beta)
-
-## [0.15.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.15.0) (2020-05-16)
+## [0.17.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.17.0) (2021-07-01)
 
 ### Enhancements
 
 - Minor improvements.
 
-## [0.15.0-beta.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.15.0-beta.0) (2020-04-05)
+### Breaking Changes
+
+- Updated tmodel dependency.
+
+## [0.16.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.16.1) (2021-06-28)
+
+### Enhancements
+
+- Update dependencies.
+
+## [0.16.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.16.0) (2021-05-17)
+
+### Features
+
+- Added a way for BlocBuilder widgets to wait for data. (beta)
+
+## [0.15.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.15.0) (2021-05-16)
+
+### Enhancements
+
+- Minor improvements.
+
+## [0.15.0-beta.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.15.0-beta.0) (2021-04-05)
 
 ### Features
 
 - `buildWhen`: Allow to only re-build a widget when a certain condition is satisfied.
 
-## [0.14.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.1) (2020-03-30)
+## [0.14.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.1) (2021-03-30)
 
 ### Enhancements
 
 - Allow to override the default behavior of the close method.
 
-## [0.14.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0) (2020-03-28)
+## [0.14.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0) (2021-03-28)
 
 ### Enhancements
 
 - Stable nullsafety.
 
-## [0.14.0-nullsafety.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0-nullsafety.1) (2020-03-08)
+## [0.14.0-nullsafety.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0-nullsafety.1) (2021-03-08)
 
 ### Fixes
 
 - Fixes regression.
 
-## [0.14.0-nullsafety.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0-nullsafety.0) (2020-03-05)
+## [0.14.0-nullsafety.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.14.0-nullsafety.0) (2021-03-05)
 
 ### Enhancements
 
