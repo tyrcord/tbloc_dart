@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 
@@ -45,6 +43,7 @@ void main() {
             bloc: bloc,
             buildWhen: (PeopleBlocState previous, PeopleBlocState next) {
               buildWhenCalled = true;
+
               return next.age! > 20;
             },
             builder: (_, PeopleBlocState state) {

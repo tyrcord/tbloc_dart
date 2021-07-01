@@ -3,7 +3,7 @@ import 'package:tmodel_dart/logic/core/core.dart';
 abstract class BlocState extends TModel {
   final bool isInitializing;
   final bool isInitialized;
-  final dynamic? error;
+  final dynamic error;
 
   bool get hasError => error != null;
 
