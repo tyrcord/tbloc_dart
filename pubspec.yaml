@@ -18,7 +18,7 @@ dependencies:
   provider: ^5.0.0
   logger: ^1.0.0
   tuple: ^2.0.0
-  tmodel_dart: ^0.2.2
+  tmodel_dart: ^0.3.0
 
 dev_dependencies:
   flutter_test:

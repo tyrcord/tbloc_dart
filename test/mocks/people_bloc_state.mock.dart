@@ -74,10 +74,8 @@ class PeopleBlocState extends HydratedBlocState {
       ];
 
   @override
-  // ignore: missing_return, no-empty-block
-  PeopleBlocState? clone() {}
+  PeopleBlocState clone() => this;
 
   @override
-  // ignore: missing_return, no-empty-block
-  PeopleBlocState? merge() {}
+  PeopleBlocState merge(covariant PeopleBlocState state) => this;
 }
