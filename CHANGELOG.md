@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.17.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.17.1) (2021-07-02)
+
+### Fixes
+
+- Made sure the buildWhen method returns correct states.
+
 ## [0.17.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.17.0) (2021-07-01)
 
 ### Enhancements
