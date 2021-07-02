@@ -50,9 +50,9 @@ class CounterBlocState extends BlocState {
   }
 
   @override
-  CounterBlocState merge({CounterBlocState? state}) {
+  CounterBlocState merge(covariant CounterBlocState state) {
     return copyWith(
-      counter: state!.counter,
+      counter: state.counter,
       error: state.error,
     );
   }
