@@ -72,10 +72,23 @@ class _BlocBuilderWidgetState<S extends BlocState>
   }
 
   void _buildStream() {
+    S? previousState;
+    S? nextState;
+
     _stream = widget.buildWhen == null
         ? widget.bloc.onData
         : widget.bloc.onData.distinct((S previous, S next) {
-            return !widget.buildWhen!(previous, next);
+            // FIXME: Need investigation
+            // Woraround for not getting the previous state.
+            if (previousState == null) {
+              previousState = previous;
+              nextState = next;
+            } else {
+              previousState = nextState;
+              nextState = next;
+            }
+
+            return !widget.buildWhen!(previousState!, nextState!);
           });
   }
 }

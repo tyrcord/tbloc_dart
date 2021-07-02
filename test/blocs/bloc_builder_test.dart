@@ -33,16 +33,27 @@ void main() {
       bloc.close();
     });
 
-    group('#filter', () {
+    group('#buildWhen', () {
       testWidgets(
         'Should only re-build the widget when the predicate is equal to true',
         (WidgetTester tester) async {
           var buildWhenCalled = false;
+          var counter = 0;
 
           await tester.pumpWidget(_buildApp(BlocBuilderWidget(
             bloc: bloc,
             buildWhen: (PeopleBlocState previous, PeopleBlocState next) {
               buildWhenCalled = true;
+
+              if (counter == 0) {
+                expect(previous.age, 42);
+                expect(next.age, 20);
+              } else if (counter == 1) {
+                expect(previous.age, 20);
+                expect(next.age, 22);
+              }
+
+              counter++;
 
               return next.age! > 20;
             },
