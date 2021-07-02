@@ -50,6 +50,9 @@ void main() {
                 expect(next.age, 20);
               } else if (counter == 1) {
                 expect(previous.age, 20);
+                expect(next.age, 18);
+              } else if (counter == 2) {
+                expect(previous.age, 18);
                 expect(next.age, 22);
               }
 
@@ -85,6 +88,23 @@ void main() {
 
           expect(textFinder, findsNothing);
           expect(buildWhenCalled, isTrue);
+
+          bloc.addEvent(
+            PeopleBlocEvent.updateInformation(
+              payload: PeopleBlocEventPayload(age: 18),
+            ),
+          );
+
+          await tester.runAsync(() async {
+            state = await bloc.onData.skip(1).first;
+          });
+
+          expect(state.age, equals(18));
+
+          await tester.pumpAndSettle();
+
+          textFinder = find.text('18');
+          expect(textFinder, findsNothing);
 
           bloc.addEvent(
             PeopleBlocEvent.updateInformation(
