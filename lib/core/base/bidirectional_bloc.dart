@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
@@ -210,30 +209,6 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       final tuple = Tuple2<BlocDebounceEventCallback<E>, E>(function, event);
       debouncer.add(tuple);
     };
-  }
-
-  ///
-  /// Better logger.
-  /// TODO: Should have its own package.
-  ///
-  @protected
-  void log(String message, {dynamic error, StackTrace? stackTrace}) {
-    final logger = Logger(
-      printer: PrettyPrinter(
-        methodCount: 4,
-        errorMethodCount: 8,
-        lineLength: 120,
-        colors: false,
-        printEmojis: true,
-        printTime: false,
-      ),
-    );
-
-    logger.w(
-      message,
-      error,
-      stackTrace ?? StackTrace.current,
-    );
   }
 
   ///

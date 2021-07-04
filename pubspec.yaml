@@ -16,7 +16,6 @@ dependencies:
   rxdart: ^0.27.1
   subx: ^1.0.3
   provider: ^5.0.0
-  logger: ^1.0.0
   tuple: ^2.0.0
   tmodel_dart: ^0.3.0
 
