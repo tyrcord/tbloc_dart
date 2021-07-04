@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.18.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.18.0) (2021-07-04)
+
+### Features
+
+- Allow to perform cancellable Async Operations.
+
+### Enhancements
+
+- Removed logger dependency.
+
 ## [0.17.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.17.1) (2021-07-02)
 
 ### Fixes
