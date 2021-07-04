@@ -221,10 +221,11 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
 
   @protected
   Future<T?> performCancellableAsyncOperation<T>(Future<T> opreation) {
-    var cancellableOperation = CancelableOperation<T>.fromFuture(
-      opreation,
-    );
+    if (shouldProcessEventInOrder()) {
+      return opreation;
+    }
 
+    var cancellableOperation = CancelableOperation<T>.fromFuture(opreation);
     cancelableOperations.add(cancellableOperation);
 
     return cancellableOperation.valueOrCancellation();
