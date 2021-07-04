@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
+import 'package:async/async.dart';
 
 import 'package:tbloc_dart/tbloc_dart.dart';
 
@@ -18,6 +20,8 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       PublishSubject<BlocEvent>();
   @protected
   final PublishSubject<E> externalEventController = PublishSubject<E>();
+  @protected
+  List<CancelableOperation> cancelableOperations = [];
   @protected
   late StreamSubscription<S> eventSubscriptions;
 
@@ -102,7 +106,11 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       return source.asyncExpand(_handleEvent);
     }
 
-    return source.switchMap(_handleEvent);
+    return source.switchMap((BlocEvent event) {
+      cancelableOperations.forEach((operation) => operation.cancel());
+
+      return _handleEvent(event);
+    });
   }
 
   ///
@@ -209,6 +217,17 @@ abstract class BidirectionalBloc<E extends BlocEvent, S extends BlocState>
       final tuple = Tuple2<BlocDebounceEventCallback<E>, E>(function, event);
       debouncer.add(tuple);
     };
+  }
+
+  @protected
+  Future<T?> performCancellableAsyncOperation<T>(Future<T> opreation) {
+    var cancellableOperation = CancelableOperation<T>.fromFuture(
+      opreation,
+    );
+
+    cancelableOperations.add(cancellableOperation);
+
+    return cancellableOperation.valueOrCancellation();
   }
 
   ///
