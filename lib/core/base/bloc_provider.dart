@@ -17,33 +17,36 @@ class BlocProvider<T extends Bloc<S>, S extends BlocState>
   final bool _lazy;
 
   BlocProvider({
-    Key? key,
     required T bloc,
+    Dispose<T>? dispose,
     Widget? child,
+    Key? key,
   }) : this._(
-          key: key,
           create: (_) => bloc,
-          dispose: (_, bloc) => bloc.close(),
+          dispose: dispose,
           child: child,
+          key: key,
         );
 
   BlocProvider.lazy({
-    Key? key,
     required Create<T> create,
+    Dispose<T>? dispose,
     Widget? child,
+    Key? key,
   }) : this._(
-          key: key,
+          dispose: dispose,
           create: create,
-          dispose: (_, bloc) => bloc.close(),
           child: child,
+          lazy: true,
+          key: key,
         );
 
   BlocProvider._({
-    Key? key,
-    Widget? child,
-    required Dispose<T> dispose,
     required Create<T> create,
-    bool lazy = true,
+    bool lazy = false,
+    Dispose<T>? dispose,
+    Widget? child,
+    Key? key,
   })  : _create = create,
         _dispose = dispose,
         _lazy = lazy,
@@ -56,8 +59,8 @@ class BlocProvider<T extends Bloc<S>, S extends BlocState>
   @override
   Widget buildWithChild(BuildContext context, Widget? child) {
     return InheritedProvider<T>(
-      create: _create,
       dispose: _dispose,
+      create: _create,
       lazy: _lazy,
       child: child,
     );
