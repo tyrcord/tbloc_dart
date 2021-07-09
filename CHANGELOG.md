@@ -1,10 +1,16 @@
 # Changelog
 
+## [0.18.2](https://github.com/tyrcord/tbloc_dart/releases/tag/0.18.2) (2021-07-09)
+
+### Enhancements
+
+- minor improvements.
+
 ## [0.18.1](https://github.com/tyrcord/tbloc_dart/releases/tag/0.18.1) (2021-07-04)
 
 ### Enhancements
 
-- minor performance improvement
+- minor performance improvement.
 
 ## [0.18.0](https://github.com/tyrcord/tbloc_dart/releases/tag/0.18.0) (2021-07-04)
 
